@@ -23,7 +23,13 @@ public class TestController
 		HashMap<String, Object> output = new HashMap<String, Object>();
 		
 		System.out.println("Test called by " + request.getRemoteAddr());
-		
+
+		//Print each value in the message
+		for(String field : payload.keySet())
+		{
+			String value = payload.get(field).toString();
+			System.out.println(field + ": " + value);
+		}
 		output.put("message", "Test call return message");
 		
 		return output;
