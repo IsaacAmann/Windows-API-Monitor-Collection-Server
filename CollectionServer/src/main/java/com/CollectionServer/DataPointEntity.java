@@ -26,16 +26,14 @@ public class DataPointEntity
 	*/
 
 	//Networking calls
-	public int call_socket;
-	public int call_bind;
-	public int call_listen;
-	public int call_accept;
-	public int call_connect;
-	public int call_send;
-	public int call_recv;
-	public int call_read;
-	public int call_WSAStratup;
-	public int call_InternetOpen;
+	public int call_socket; //hooked
+	public int call_bind; //hooked
+	public int call_listen; //hooked
+	public int call_accept; //hooked
+	public int call_connect; //hooked
+	public int call_send; //hooked
+	public int call_recv; //Hooked
+	public int call_InternetOpen; //Hooked
 	public int call_InternetOpenUrl;
 	public int call_InternetReadFie;
 	public int call_InternetWriteFile;
@@ -48,6 +46,7 @@ public class DataPointEntity
 
 	//File access calls
 	public int call_CreateFile;
+	public int call_WriteFile; //Hooked
 	public int call_CreateFileMapping;
 	public int call_GetWindowsDirectory;
 	public int call_SetFileTime;
@@ -86,8 +85,8 @@ public class DataPointEntity
 	public int call_NtQueryInformationProcess;
 	public int call_PeekNamedPipe;
 	public int call_RegisterHotKey;
-	public int call_GetCurrentProcessId;
-	public int call_OpenProcess;
+	public int call_GetCurrentProcessId; //Hooked
+	public int call_OpenProcess; //Hooked
 	public int call_TerminateProcess;
 
 	//Threads / execution
@@ -103,7 +102,7 @@ public class DataPointEntity
 	public int call_GetForeGroundWindow;
 	public int call_GetDC;
 	public int call_BitBlt;
-	public int call_gethostname;
+	public int call_gethostname; //hooked
 	public int call_GetKeyState;
 	public int call_GetAdaptersInfo;
 	public int call_isNTAdmin;
