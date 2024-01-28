@@ -34,15 +34,13 @@ public class DataPointEntity
 	public int call_send; //hooked
 	public int call_recv; //Hooked
 	public int call_InternetOpen; //Hooked
-	public int call_InternetOpenUrl;
-	public int call_InternetReadFie;
-	public int call_InternetWriteFile;
-	public int call_URLDownloadToFile;
-
+	public int call_InternetOpenUrl; //Hooked
+	public int call_InternetReadFie; //Hooked
+	public int call_InternetWriteFile; //Hooked
 	//Service creation
-	public int call_OpenSCManager;
-	public int call_CreateService;
-	public int call_StartServiceCtrlDispatcher;
+	public int call_OpenSCManager; //hooked
+	public int call_CreateService; //hooked
+	public int call_StartServiceCtrlDispatcher; //hooked
 
 	//File access calls
 	public int call_CreateFile;
