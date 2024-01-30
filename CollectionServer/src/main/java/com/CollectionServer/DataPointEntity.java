@@ -43,38 +43,29 @@ public class DataPointEntity
 	public int call_StartServiceCtrlDispatcher; //hooked
 
 	//File access calls
-	public int call_CreateFile;
+	public int call_CreateFile; //Hooked
 	public int call_WriteFile; //Hooked
-	public int call_CreateFileMapping;
-	public int call_GetWindowsDirectory;
-	public int call_SetFileTime;
-	public int call_SfcTerminateWatcherThread;
+	public int call_CreateFileMapping; //Hooked
+	public int call_GetWindowsDirectory; //Hooked
+	public int call_SetFileTime; //Hooked
 
 	//Registry access calls
-	public int call_RegCreateKeyEx;
-	public int call_RegOpenKeyEx;
-	public int call_RegSetValueEx;
-	public int call_RegDeleteKeyEx;
-	public int call_RegGetValue;
+	public int call_RegCreateKeyEx; //Hooked
+	public int call_RegOpenKeyEx; //Hooked
+	public int call_RegSetValueEx; //Hooked
+	public int call_RegDeleteKeyEx; //Hooked
+	public int call_RegGetValue; //Hooked
 
-	//Encryption calls
-	public int call_WinCrypt;
-	public int call_CryptAcquireContext;
-	public int call_CryptGenKey;
-	public int call_CryptDeriveKey;
-	public int call_CryptDecrypt;
-	public int call_CryptReleaseContext;
 	//Memory calls
-	public int call_VirtualAlloc;
-	public int call_VirtualProtect;
+	public int call_VirtualAlloc; //Hooked
+	public int call_VirtualProtect; //Hooked
 	//Process access calls
-	public int call_ReadProcessMemory;
-	public int call_WriteProcessMemory;
-	public int call_CreateRemoteThread;
-	public int call_QueueUserAPC;
-	public int call_ZwUnmapViewOfSection;
-	public int call_ConnectNamedPipe;
-	public int call_CreateNamedPipe;
+	public int call_ReadProcessMemory; //Hooked
+	public int call_WriteProcessMemory; //Hooked
+	public int call_CreateRemoteThread; //Hooked
+	public int call_QueueUserAPC; //Hooked
+	public int call_ConnectNamedPipe; //Hooked
+	public int call_CreateNamedPipe; //Hooked
 	public int call_EnumProcesses;
 	public int call_enumProcessModules;
 	public int call_GetProcAddress;
@@ -91,9 +82,6 @@ public class DataPointEntity
 	public int call_CreateProcess;
 	public int call_ShellExecute;
 	public int call_WinExec;
-	public int call_ResumeThread;
-	public int call_SuspendThread;
-	public int call_NtResumeThread;
 	//Spying
 	public int call_GetAsyncKeyState;
 	public int call_SetWindowsHookEx;
@@ -113,7 +101,4 @@ public class DataPointEntity
 
 	//Other
 	public int call_IsDebuggerPresent;
-	public int call_CreateMutex;
-	public int call_LdrLoadDll;
-	public int call_LoadResource;
 }
