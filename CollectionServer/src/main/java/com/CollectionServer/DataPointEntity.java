@@ -66,22 +66,19 @@ public class DataPointEntity
 	public int call_QueueUserAPC; //Hooked
 	public int call_ConnectNamedPipe; //Hooked
 	public int call_CreateNamedPipe; //Hooked
-	public int call_EnumProcesses;
-	public int call_enumProcessModules;
-	public int call_GetProcAddress;
-	public int call_GetModulesfilename;
-	public int call_GetModuleHandle;
-	public int call_NtQueryInformationProcess;
-	public int call_PeekNamedPipe;
-	public int call_RegisterHotKey;
+	public int call_EnumProcesses; //Hooked
+	public int call_EnumProcessModules; //Hooked
+	public int call_GetProcAddress; //Hooked
+	public int call_GetModulesfilename; //Hooked
+	public int call_GetModuleHandle;  //Hooked
+	public int call_PeekNamedPipe; //Hooked
+	public int call_RegisterHotKey; //Hooked
 	public int call_GetCurrentProcessId; //Hooked
 	public int call_OpenProcess; //Hooked
 	public int call_TerminateProcess;
 
 	//Threads / execution
 	public int call_CreateProcess;
-	public int call_ShellExecute;
-	public int call_WinExec;
 	//Spying
 	public int call_GetAsyncKeyState;
 	public int call_SetWindowsHookEx;
@@ -91,13 +88,8 @@ public class DataPointEntity
 	public int call_gethostname; //hooked
 	public int call_GetKeyState;
 	public int call_GetAdaptersInfo;
-	public int call_isNTAdmin;
 	public int call_LsaEnumerateLogonSessions;
 	public int call_MapVirtualKey;
-	public int call_NetShareEnum;
-	public int call_SamlConnect;
-	public int call_SamlGetPrivateData;
-	public int call_SamQueryInformationUse;
 
 	//Other
 	public int call_IsDebuggerPresent;
