@@ -75,22 +75,19 @@ public class DataPointEntity
 	public int call_RegisterHotKey; //Hooked
 	public int call_GetCurrentProcessId; //Hooked
 	public int call_OpenProcess; //Hooked
-	public int call_TerminateProcess;
+	public int call_TerminateProcess; //Hooked
 
 	//Threads / execution
-	public int call_CreateProcess;
+	public int call_CreateProcess; //Hooked
 	//Spying
-	public int call_GetAsyncKeyState;
-	public int call_SetWindowsHookEx;
-	public int call_GetForeGroundWindow;
-	public int call_GetDC;
-	public int call_BitBlt;
+	public int call_GetAsyncKeyState; //Hooked
+	public int call_SetWindowsHookEx; //Hooked
+	public int call_GetForeGroundWindow; //Hooked
+	public int call_GetDC; //Hooked
 	public int call_gethostname; //hooked
-	public int call_GetKeyState;
-	public int call_GetAdaptersInfo;
-	public int call_LsaEnumerateLogonSessions;
-	public int call_MapVirtualKey;
+	public int call_GetKeyState; //Hooked
+	public int call_MapVirtualKey; //Hooked
 
 	//Other
-	public int call_IsDebuggerPresent;
+	public int call_IsDebuggerPresent; //Hooked
 }
