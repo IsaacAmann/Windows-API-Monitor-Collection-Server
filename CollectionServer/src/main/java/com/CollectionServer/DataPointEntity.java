@@ -35,7 +35,7 @@ public class DataPointEntity
 	public int call_recv; //Hooked
 	public int call_InternetOpen; //Hooked
 	public int call_InternetOpenUrl; //Hooked
-	public int call_InternetReadFie; //Hooked
+	public int call_InternetReadFile; //Hooked
 	public int call_InternetWriteFile; //Hooked
 	//Service creation
 	public int call_OpenSCManager; //hooked
