@@ -13,6 +13,7 @@ import java.security.SecureRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.UUID;
 import java.util.Arrays;
 import java.util.Base64; 
@@ -26,10 +27,12 @@ public class CollectionClient
 	public Integer Id;
 	
 	public UUID clientID;
+	public Date lastSeen;
 		
 	private byte[] APIToken;
+	public int dataPointsCreated;
 
-	
+
 	public CollectionClient()
 	{
 		SecureRandom tokenGen = new SecureRandom();
@@ -39,6 +42,9 @@ public class CollectionClient
 		tokenGen.nextBytes(tokenArray);
 
 		clientID = UUID.randomUUID();
+
+		lastSeen = new Date();
+		dataPointsCreated = 0;
 
 		//Set new API token
 		APIToken = tokenArray;

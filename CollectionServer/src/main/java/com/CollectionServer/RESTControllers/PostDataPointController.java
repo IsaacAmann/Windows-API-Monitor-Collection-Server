@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -52,6 +49,12 @@ public class PostDataPointController
             dataPoint.originClientId = UUID.fromString(uuid);
             dataPoint.executablePath = executablePath;
             dataPointRepository.save(dataPoint);
+
+            //Update clients data point count
+            client.lastSeen = new Date();
+            client.dataPointsCreated += 1;
+            collectionClientRepository.save(client);
+
             output.put("message", "Datapoint posted to database");
         }
         else

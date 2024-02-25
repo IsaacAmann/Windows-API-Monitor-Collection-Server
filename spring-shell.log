@@ -3,3 +3,6 @@
 1708842360242:createUser test2 password
 1708900748143:help
 1708900752391:registerClient
+1708903659627:help
+1708903663980:setUserRole
+1708903672141:setUserRole test2 ADMIN
