@@ -50,7 +50,7 @@ public class CollectionClient
 		Base64.Decoder decoder = Base64.getUrlDecoder();
 		byte[] tokenBytes = decoder.decode(token);
 		//Compare passed token to stored token
-		if(Arrays.equals(tokenBytes, this.APItoken))
+		if(Arrays.equals(tokenBytes, this.APIToken))
 		{
 			output = true;
 		}

@@ -1,5 +1,7 @@
 package com.CollectionServer.UserManagement;
 
+import com.CollectionServer.Services.UserAuthenticationService;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,9 +21,15 @@ import java.util.Base64;
 
 import java.time.*;
 
+
 @Entity
 public class UserAccount
 {
+	@Transient
+	@Autowired
+	private UserAuthenticationService authService;
+
+
 	//User roles to track permissions for certain API calls
 	public enum UserRole
 	{
@@ -33,17 +41,14 @@ public class UserAccount
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Integer Id;
 
-	private String username; 
+	public String username;
 		
 	@Column(columnDefinition="BLOB(32)")
 	private byte passwordHash[];
 
 	private String passwordSalt;
 	
-	private byte[] sessionToken;
-		
-	private String tokenExpiration;
-	
+
 	public UserRole userRole;
 	
 
@@ -68,22 +73,19 @@ public class UserAccount
 		passwordHash = newPasswordHash;
 	}
 	
-	//Check if a given session token is valid
-	public boolean isValidSessionToken(String token)
+	public boolean checkPassword(String enteredPassword) throws NoSuchAlgorithmException
 	{
 		boolean output = false;
-		//Check that current session token is not expired
-		if(LocalDateTime.now().isBefore(LocalDateTime.parse(tokenExpiration)))
-		{
-			//Decode token
-			Base64.Decoder decoder = Base64.getUrlDecoder();
-			byte[] tokenBytes = decoder.decode(token);
-			//Compare passed token to stored token
-			if(Arrays.equals(tokenBytes, this.sessionToken))
-			{
-				output = true;
-			}
-		}
+		//Append salt to entered password
+		String saltedPassword = enteredPassword + passwordSalt;
+		//Hash salted password
+		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+		messageDigest.update(saltedPassword.getBytes(StandardCharsets.UTF_8));
+		byte enteredPasswordHash[] = messageDigest.digest();
+
+		//Compare stored hash
+		output = Arrays.equals(passwordHash, enteredPasswordHash);
+
 		return output;
 	}
 	
@@ -95,26 +97,6 @@ public class UserAccount
 	public byte[] getPasswordHash()
 	{
 		return passwordHash;
-	}
-	
-	public void setSessionToken(byte[] newToken)
-	{
-		this.sessionToken = newToken;
-	}
-	
-	public byte[] getSessionToken()
-	{
-		return sessionToken;
-	}
-	
-	public void setTokenExpiration(String expirationDate)
-	{
-		this.tokenExpiration = expirationDate;
-	}
-	
-	public String getTokenExpiration()
-	{
-		return tokenExpiration;
 	}
 
 	public String getPasswordSalt()

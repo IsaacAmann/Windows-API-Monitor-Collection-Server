@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.UUID;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.context.annotation.Configuration;
+
+
 
 @SpringBootApplication
 public class CollectionServerApplication {
@@ -31,6 +34,8 @@ public class CollectionServerApplication {
 			registry.addMapping("/**");
 		}
 	}
+
+
 }
 
 

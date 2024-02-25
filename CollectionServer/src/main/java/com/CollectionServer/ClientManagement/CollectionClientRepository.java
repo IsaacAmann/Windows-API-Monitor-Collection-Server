@@ -2,7 +2,9 @@ package com.CollectionServer.ClientManagement;
 
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.UUID;
+
 public interface CollectionClientRepository extends CrudRepository<CollectionClient, Integer>
 {
-	CollectionClient findByUUID(UUID uuid);
+	CollectionClient findByClientID(UUID uuid);
 }
