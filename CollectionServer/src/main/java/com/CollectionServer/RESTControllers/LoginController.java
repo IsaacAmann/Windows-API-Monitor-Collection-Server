@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-
 public class LoginController
 {
     @Autowired

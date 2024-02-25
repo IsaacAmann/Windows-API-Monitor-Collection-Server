@@ -37,7 +37,9 @@ public class CollectionClient
 		
 		byte[] tokenArray = new byte[32];
 		tokenGen.nextBytes(tokenArray);
-		
+
+		clientID = UUID.randomUUID();
+
 		//Set new API token
 		APIToken = tokenArray;
 	}
