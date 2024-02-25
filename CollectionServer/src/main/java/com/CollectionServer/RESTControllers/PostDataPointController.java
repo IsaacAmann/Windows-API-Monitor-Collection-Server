@@ -31,7 +31,7 @@ public class PostDataPointController
     DataPointRepository dataPointRepository;
 
     @PostMapping("/postDatapoint")
-    public Map<String,Object> login(@RequestBody Map<String, Object> payload, HttpServletRequest request) throws NoSuchAlgorithmException
+    public Map<String,Object> postDatapoint(@RequestBody Map<String, Object> payload, HttpServletRequest request) throws NoSuchAlgorithmException
     {
         HashMap<String, Object> output = new HashMap<String, Object>();
         String uuid = (String)payload.get("uuid");

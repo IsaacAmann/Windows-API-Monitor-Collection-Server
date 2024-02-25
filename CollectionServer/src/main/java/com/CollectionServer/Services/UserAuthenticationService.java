@@ -64,6 +64,11 @@ public class UserAuthenticationService
             {
                 output = true;
             }
+            //Admin role should have full access
+            else if (UserAccount.UserRole.ADMIN == UserAccount.UserRole.valueOf(jwt.getClaim("userRole").asString()))
+            {
+                output = true;
+            }
         }
 
 
