@@ -56,6 +56,7 @@ public class UserAccount
 	{
 		this.username = null;
 		this.passwordHash = null;
+		this.userRole = UserRole.USER;
 		SecureRandom tokenGen = new SecureRandom();
 		byte[] salt = new byte[32];
 		tokenGen.nextBytes(salt);

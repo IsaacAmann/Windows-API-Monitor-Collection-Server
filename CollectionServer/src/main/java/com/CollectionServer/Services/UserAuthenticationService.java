@@ -11,7 +11,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import java.util.Date;
 import java.util.UUID;
 
-//see https://www.javadoc.io/doc/com.auth0/java-jwt/3.1.0/com/auth0/jwt/algorithms/Algorithm.html
+//see https://www.javadoc.io/doc/com.auth0/java-jwt/3.1.0/
 @Service
 public class UserAuthenticationService
 {
@@ -29,6 +29,7 @@ public class UserAuthenticationService
         String token = JWT.create()
                 .withIssuer("WindowsAPIMonitorProject")
                 .withClaim("username", user.username)
+                .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_LIFE_TIME))
                 .withJWTId(UUID.randomUUID().toString())
                 .withClaim("userRole", user.userRole.toString())
