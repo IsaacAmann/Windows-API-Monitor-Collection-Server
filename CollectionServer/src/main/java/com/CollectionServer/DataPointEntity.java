@@ -6,6 +6,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
 
+import java.util.Map;
+
+
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +21,12 @@ public class DataPointEntity
 	
 	public String executablePath;
 
+	public UUID originClientId;
+
+	@ElementCollection
+
+	public Map<String, Integer> WinAPICounts;
+
 	/*
 	Monitored API calls include some selected from the following sources:
 	https://book.hacktricks.xyz/reversing-and-exploiting/common-api-used-in-malware
@@ -24,7 +34,7 @@ public class DataPointEntity
 
 	List will also include other common Win32 API calls used by normal programs as well
 	*/
-
+/*
 	//Networking calls
 	public int call_socket; //hooked
 	public int call_bind; //hooked
@@ -90,4 +100,6 @@ public class DataPointEntity
 
 	//Other
 	public int call_IsDebuggerPresent; //Hooked
+
+	 */
 }

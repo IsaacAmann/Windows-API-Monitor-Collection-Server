@@ -3,6 +3,7 @@ package com.CollectionServer.RESTControllers;
 
 import com.CollectionServer.ClientManagement.CollectionClient;
 import com.CollectionServer.ClientManagement.CollectionClientRepository;
+import com.CollectionServer.DataPointEntity;
 import com.CollectionServer.DataPointRepository;
 import com.CollectionServer.UserManagement.UserAccount;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -34,14 +36,23 @@ public class PostDataPointController
         HashMap<String, Object> output = new HashMap<String, Object>();
         String uuid = (String)payload.get("uuid");
         String token = (String)payload.get("token");
+        String executablePath = (String)payload.get("executablePath");
         //This should be a LinkedHashMap
-        String winAPICalls = (String)payload.get("WinAPICounts");
+        LinkedHashMap<String, Integer> winAPICalls = (LinkedHashMap<String, Integer>) payload.get("WinAPICounts");
 
-        System.out.println(winAPICalls);
+        System.out.println(winAPICalls.get("GetCurrentProcessId"));
+
+
 
         //Authenticate client
         //CollectionClient client = collectionClientRepository.findByClientID(UUID.fromString(uuid));
 
+        //Create new datapoint
+        DataPointEntity dataPoint= new DataPointEntity();
+        dataPoint.WinAPICounts = winAPICalls;
+        dataPoint.originClientId = UUID.fromString(uuid);
+        dataPoint.executablePath = executablePath;
+        dataPointRepository.save(dataPoint);
 
         return output;
     }
