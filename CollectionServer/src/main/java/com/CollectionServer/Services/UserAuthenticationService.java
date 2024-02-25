@@ -52,5 +52,23 @@ public class UserAuthenticationService
         }
     }
 
+    public boolean authenticateRequest(String token, UserAccount.UserRole requiredUserRole)
+    {
+        boolean output = false;
+
+        DecodedJWT jwt = verifyToken(token);
+        if(jwt != null)
+        {
+            //Check that user role matches
+            if(requiredUserRole == UserAccount.UserRole.valueOf(jwt.getClaim("userRole").asString()))
+            {
+                output = true;
+            }
+        }
+
+
+        return output;
+    }
+
 }
 

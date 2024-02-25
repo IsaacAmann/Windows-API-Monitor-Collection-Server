@@ -42,17 +42,22 @@ public class PostDataPointController
 
         System.out.println(winAPICalls.get("GetCurrentProcessId"));
 
-
-
         //Authenticate client
-        //CollectionClient client = collectionClientRepository.findByClientID(UUID.fromString(uuid));
-
-        //Create new datapoint
-        DataPointEntity dataPoint= new DataPointEntity();
-        dataPoint.WinAPICounts = winAPICalls;
-        dataPoint.originClientId = UUID.fromString(uuid);
-        dataPoint.executablePath = executablePath;
-        dataPointRepository.save(dataPoint);
+        CollectionClient client = collectionClientRepository.findByClientID(UUID.fromString(uuid));
+        if(client != null && client.isValidAPIToken(token))
+        {
+            //Create new datapoint
+            DataPointEntity dataPoint= new DataPointEntity();
+            dataPoint.WinAPICounts = winAPICalls;
+            dataPoint.originClientId = UUID.fromString(uuid);
+            dataPoint.executablePath = executablePath;
+            dataPointRepository.save(dataPoint);
+            output.put("message", "Datapoint posted to database");
+        }
+        else
+        {
+            output.put("error", "Failed to authenticate");
+        }
 
         return output;
     }

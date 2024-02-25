@@ -1,3 +1,5 @@
 1708841997209:createUser
 1708842005865:createUser test test2
 1708842360242:createUser test2 password
+1708900748143:help
+1708900752391:registerClient

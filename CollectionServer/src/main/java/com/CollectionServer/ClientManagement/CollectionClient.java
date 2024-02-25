@@ -59,5 +59,13 @@ public class CollectionClient
 		
 		return output;
 	}
-	
+
+	//Return encoded api token
+	public String getEncodedAPIToken()
+	{
+		Base64.Encoder encoder = Base64.getUrlEncoder();
+
+		return (encoder.encodeToString(APIToken));
+	}
+
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.Map;
 
 
@@ -23,9 +24,16 @@ public class DataPointEntity
 
 	public UUID originClientId;
 
+	public Date dateCreated;
+
 	@ElementCollection
 
 	public Map<String, Integer> WinAPICounts;
+
+	public DataPointEntity()
+	{
+		dateCreated = new Date();
+	}
 
 	/*
 	Monitored API calls include some selected from the following sources:
