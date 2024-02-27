@@ -39,7 +39,7 @@ public class UserAccount
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Integer Id;
+	public Integer id;
 
 	public String username;
 		

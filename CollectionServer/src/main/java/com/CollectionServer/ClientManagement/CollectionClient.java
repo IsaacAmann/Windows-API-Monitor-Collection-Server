@@ -24,7 +24,7 @@ public class CollectionClient
 {	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Integer Id;
+	public Integer id;
 	
 	public UUID clientID;
 	public Date lastSeen;

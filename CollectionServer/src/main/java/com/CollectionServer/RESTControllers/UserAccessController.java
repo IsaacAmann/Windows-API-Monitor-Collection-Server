@@ -1,54 +1,55 @@
 package com.CollectionServer.RESTControllers;
 
-import com.CollectionServer.ClientManagement.CollectionClient;
-import com.CollectionServer.ClientManagement.CollectionClientRepository;
+
 import com.CollectionServer.DataPointEntity;
 import com.CollectionServer.UserManagement.UserAccount;
+import com.CollectionServer.UserManagement.UserAccountRepository;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.CollectionServer.Services.UserAuthenticationService;
 
+import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.*;
 
 @RestController
-public class ClientAccessController
+public class UserAccessController
 {
     @Autowired
     private UserAuthenticationService userAuthenticationService;
     @Autowired
-    private CollectionClientRepository collectionClientRepository;
+    private UserAccountRepository userAccountRepository;
 
-    @PostMapping("/inspectClient")
-    public Map<String,Object> inspectClient(@RequestBody Map<String, Object> payload, HttpServletRequest request)
+    @PostMapping("/inspectUser")
+    public Map<String,Object> inspectUser(@RequestBody Map<String, Object> payload, HttpServletRequest request)
     {
         HashMap<String, Object> output = new HashMap<String, Object>();
         String token = (String)payload.get("token");
-        UUID clientUUID = UUID.fromString((String)payload.get("clientUUID"));
-
+        String username = (String)payload.get("username");
         //Authenticate
         if(userAuthenticationService.authenticateRequest(token, UserAccount.UserRole.ADMIN) == true)
         {
             //Get requested data point
-            CollectionClient client = collectionClientRepository.findByClientID(clientUUID);
-            if(client != null)
+            UserAccount userAccount = userAccountRepository.findByUsername(username);
+            if(userAccount != null)
             {
                 //Fill output with fields
-                output.put("lastSeen", client.lastSeen.toString());
-                output.put("dataPointsCreated", client.dataPointsCreated);
+                output.put("username", userAccount.username);
+                output.put("userRole", userAccount.userRole);
+                output.put("id", userAccount.id);
             }
             else
             {
-                output.put("error", "Could not find a client with Id: " + clientUUID);
+                output.put("error", "Could not find a user with username: " + username);
             }
         }
         else
@@ -59,8 +60,8 @@ public class ClientAccessController
         return output;
     }
 
-    @PostMapping("/getClientPage")
-    public Map<String,Object> getClientPage(@RequestBody Map<String, Object> payload, HttpServletRequest request)
+    @PostMapping("/getUserPage")
+    public Map<String,Object> getUserPage(@RequestBody Map<String, Object> payload, HttpServletRequest request)
     {
         HashMap<String, Object> output = new HashMap<String, Object>();
         String token = (String)payload.get("token");
@@ -68,15 +69,14 @@ public class ClientAccessController
         int pageSize = (int)payload.get("pageSize");
         if(userAuthenticationService.authenticateRequest(token, UserAccount.UserRole.ADMIN) == true)
         {
-            Page<CollectionClient> clients = collectionClientRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.Direction.DESC, "Id"));
+            Page<UserAccount> points = userAccountRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.Direction.DESC, "id"));
 
-            output.put("values", clients);
+            output.put("values", points);
         }
         else
         {
             output.put("error", "Failed to authenticate");
         }
-
 
         return output;
     }

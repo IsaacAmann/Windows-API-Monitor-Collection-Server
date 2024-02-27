@@ -18,7 +18,7 @@ public class DataPointEntity
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Integer Id;
+	public Integer id;
 	
 	public String executablePath;
 
