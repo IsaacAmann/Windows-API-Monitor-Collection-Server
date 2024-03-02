@@ -9,7 +9,7 @@ function App() {
 	<LoginInfoContext.Provider >
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout />}>
+                <Route path="/" >
                     <Route index element={<HomePage />} />
                 </Route>
             </Routes>
