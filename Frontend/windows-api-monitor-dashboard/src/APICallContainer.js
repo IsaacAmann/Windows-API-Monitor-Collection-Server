@@ -53,6 +53,17 @@ class APICallContainer
 	{
 		cookies.remove('token');
 	}
+	
+	async getDataSample()
+	{
+		var url = "";
+		url = url.concat(apiURL, "/getDataSample");
+		
+		var result = await axios.post(url, null);
+		
+		console.log(result);
+		return result.data;
+	}
 }
 
 export default new APICallContainer();
