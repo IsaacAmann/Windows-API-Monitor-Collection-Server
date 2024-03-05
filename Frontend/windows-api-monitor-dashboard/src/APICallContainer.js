@@ -34,6 +34,21 @@ class APICallContainer
 		return output;
 	}
 	
+	getLoginInfo()
+	{
+		var output = null;
+		
+		var storedToken = cookies.get("token");
+		
+		if(storedToken != null && storedToken != undefined)
+		{
+			//Verify token is not expired
+			output = storedToken;
+		}
+		
+		return output;
+	}
+	
 	logout()
 	{
 		cookies.remove('token');

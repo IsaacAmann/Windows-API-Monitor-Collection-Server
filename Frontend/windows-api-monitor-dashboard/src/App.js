@@ -1,14 +1,18 @@
 import './App.css'
 import ReactDOM from "react-dom/client"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import {createContext, useContext, useState} from 'react'
+import {createContext, useContext, useState, useEffect} from 'react'
 
 import {colors, ThemeProvider} from "@mui/material"
 import {createTheme} from "@mui/material/styles"
 import CssBaseline from '@mui/material/CssBaseline';
 
+import APICallContainer from "./APICallContainer.js";
 
 import HomePage from "./Pages/HomePage/HomePage.js"
+
+import { jwtDecode } from "jwt-decode";
+
 
 export const LoginInfoContext = createContext({token: null, setToken: () => {}});
 
@@ -67,6 +71,20 @@ function App() {
 	const [username, setUsername] = useState(null);
 	const [userRole, setUserRole] = useState(null);
 	const loginInfo = useContext(LoginInfoContext);
+	
+	//Check for token in cookie
+	useEffect(() => 
+	{
+		var currentToken = APICallContainer.getLoginInfo();
+		if(currentToken != null)
+		{
+			//Decode token and set fields
+			var decodedToken = jwtDecode(currentToken);
+			setUsername(decodedToken.username);
+			setToken(currentToken);
+			setUserRole(decodedToken.userRole);
+		}
+	}, []);
 	
 	return (
 	<ThemeProvider theme={mainTheme}>

@@ -61,6 +61,7 @@ function Navbar()
 		const drawerList = (
 			<Box sx={{width: 250, bgcolor:'#020a07', minHeight: '100%'}} role="presentation" >
 				<Typography variant="h4">Hello {loginInfo.username}!</Typography>
+				<Typography variant="h5">User Role: {loginInfo.userRole}</Typography>
 				<Divider />
 				
 				
