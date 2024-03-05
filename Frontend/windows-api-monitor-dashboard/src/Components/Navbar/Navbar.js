@@ -12,6 +12,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import { jwtDecode } from "jwt-decode";
+import Divider from '@mui/material/Divider';
+
 
 import GitHubIcon from '@mui/icons-material/GitHub';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -24,8 +26,10 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Drawer from '@mui/material/Drawer';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import APICallContainer from "../../APICallContainer.js";
+
 
 
 
@@ -43,11 +47,24 @@ function Navbar()
 	const usernameRef = React.useRef(null);
 	const passwordRef = React.useRef(null);
 	
+	function handleLogout()
+	{
+		setProfileDisplayUp(false);
+		loginInfo.setUsername(null);
+		loginInfo.setUserRole(null);
+		loginInfo.setToken(null);
+		APICallContainer.logout();
+	}
+	
 	function ProfileDisplayDrawer()
 	{
 		const drawerList = (
 			<Box sx={{width: 250, bgcolor:'#020a07', minHeight: '100%'}} role="presentation" >
-				<p>test</p>
+				<Typography variant="h4">Hello {loginInfo.username}!</Typography>
+				<Divider />
+				
+				
+				<Button variant="contained" onClick={() => handleLogout()}> <LogoutIcon/>Sign Out </Button>
 			</Box>
 		);
 		return(
@@ -68,6 +85,13 @@ function Navbar()
 				if(value.token != null)
 				{
 					loginInfo.setToken(value.token);
+					
+					//Decode token
+					var decodedToken = jwtDecode(value.token);
+					console.log(decodedToken);
+					loginInfo.setUsername(decodedToken.username);
+					loginInfo.setUserRole(decodedToken.userRole);
+					
 					setLoginUp(false);
 				}
 				else

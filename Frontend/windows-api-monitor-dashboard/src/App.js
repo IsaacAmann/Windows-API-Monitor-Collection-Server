@@ -64,12 +64,14 @@ export const mainTheme = createTheme({
 
 function App() {
 	const [token, setToken] = useState(null);
+	const [username, setUsername] = useState(null);
+	const [userRole, setUserRole] = useState(null);
 	const loginInfo = useContext(LoginInfoContext);
 	
 	return (
 	<ThemeProvider theme={mainTheme}>
 	<CssBaseline/>
-		<LoginInfoContext.Provider value={{token: token, setToken: setToken}}>
+		<LoginInfoContext.Provider value={{token: token, setToken: setToken, username: username, setUsername: setUsername, userRole: userRole, setUserRole: setUserRole}}>
 			<BrowserRouter>
 				<Routes>
 					<Route path="/">

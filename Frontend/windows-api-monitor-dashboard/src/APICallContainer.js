@@ -34,7 +34,10 @@ class APICallContainer
 		return output;
 	}
 	
-	
+	logout()
+	{
+		cookies.remove('token');
+	}
 }
 
 export default new APICallContainer();
