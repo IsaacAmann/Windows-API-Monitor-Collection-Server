@@ -59,9 +59,9 @@ class APICallContainer
 		var url = "";
 		url = url.concat(apiURL, "/getDataSample");
 		
-		var result = await axios.post(url, null);
+		var result = await axios.post(url, {});
 		
-		console.log(result);
+		//console.log(result);
 		return result.data;
 	}
 }

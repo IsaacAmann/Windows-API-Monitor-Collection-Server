@@ -13,7 +13,11 @@ import CardContent from '@mui/material/CardContent';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
+import CircularProgress from '@mui/material/CircularProgress';
+import LinearProgress from '@mui/material/LinearProgress';
+import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 
+import APICallContainer from "../../APICallContainer.js";
 
 
 
@@ -21,6 +25,69 @@ import Divider from '@mui/material/Divider';
 
 import Navbar from "../../Components/Navbar/Navbar.js"
 
+function SampleTable()
+{
+	const [isLoading, setIsLoading] = useState(true);
+	const [sampleResult, setSampleResult] = useState(null);
+	
+	if(isLoading)
+	{
+		var response = APICallContainer.getDataSample().then(
+			function(value)
+			{			
+				setIsLoading(false);
+				setSampleResult(value);
+				//console.log(value);
+
+			}
+		);
+	}
+	
+	if(isLoading == true)
+	{
+		return(
+			<div style={{display: "flex", justifyContent: "center"}}>
+			<CircularProgress color="secondary" sx={{my: 10}}/>
+			</div>
+		);
+	}
+	else
+	{
+		//Grabbing windows api counts
+		var apiRows = [];
+		
+		var dataArray = sampleResult.values.content;
+		
+		console.log(dataArray[0].WinAPICounts);
+		Object.keys(dataArray[0].WinAPICounts).forEach(function(key,index) 
+		{
+			apiRows[index] = {};
+			apiRows[index].field = key;
+			apiRows[index].headerName = key;
+			apiRows[index].width = 100;
+		});
+		
+		console.log(apiRows);
+		var rows: GridRowsProp = [];
+		
+		var colDefs = [
+				{field: 'id', headerName: "id", width: 50},
+				{field: 'executablePath', headerName: "executablePath", width: 150},
+				{field: 'origin', headerName: 'originClientId', width: 200},
+				{field: 'dateCreated', headerName: 'dateCreated', width: 150}
+			];
+		
+		colDefs = colDefs.concat(apiRows);
+		console.log(colDefs);
+		var columns: GridColDef[] = colDefs;
+		return(
+			<>
+			
+				<DataGrid rows={rows} columns={columns}/>
+			</>
+		);
+	}
+}
 
 function HomePage()
 {
@@ -36,6 +103,7 @@ function HomePage()
 				<Typography>
 					A user-level process monitor that collects Windows API usage data from Windows pocesses for behavior analysis.
 				</Typography>
+				<SampleTable/>
 				<Divider />
 				
 				<Typography variant="h3">
