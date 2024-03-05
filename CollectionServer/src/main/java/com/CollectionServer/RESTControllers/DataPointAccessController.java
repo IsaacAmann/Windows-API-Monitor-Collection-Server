@@ -64,6 +64,22 @@ public class DataPointAccessController
         return output;
     }
 
+    @PostMapping("/getDataSample")
+    public Map<String,Object> getDataSample(@RequestBody Map<String, Object> payload, HttpServletRequest request)
+    {
+        HashMap<String, Object> output = new HashMap<String, Object>();
+
+        int pageNumber = 0;
+        int pageSize = 5;
+
+
+        Page<DataPointEntity> points = dataPointRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.Direction.DESC, "Id"));
+
+        output.put("values", points);
+
+        return output;
+    }
+
     @PostMapping("/getDataPointPage")
     public Map<String,Object> getDataPointPage(@RequestBody Map<String, Object> payload, HttpServletRequest request)
     {
