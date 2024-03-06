@@ -58,32 +58,53 @@ function SampleTable()
 		
 		var dataArray = sampleResult.values.content;
 		
-		console.log(dataArray[0].WinAPICounts);
+		//console.log(dataArray[0].WinAPICounts);
+		//Set up columns
 		Object.keys(dataArray[0].WinAPICounts).forEach(function(key,index) 
 		{
 			apiRows[index] = {};
 			apiRows[index].field = key;
 			apiRows[index].headerName = key;
-			apiRows[index].width = 100;
+			apiRows[index].width = 200;
 		});
 		
 		console.log(apiRows);
-		var rows: GridRowsProp = [];
 		
 		var colDefs = [
 				{field: 'id', headerName: "id", width: 50},
-				{field: 'executablePath', headerName: "executablePath", width: 150},
-				{field: 'origin', headerName: 'originClientId', width: 200},
+				{field: 'executablePath', headerName: "executablePath", width: 1000},
+				{field: 'origin', headerName: 'originClientId', width: 325},
 				{field: 'dateCreated', headerName: 'dateCreated', width: 150}
 			];
 		
 		colDefs = colDefs.concat(apiRows);
-		console.log(colDefs);
+		//console.log(colDefs);
+		
 		var columns: GridColDef[] = colDefs;
+		
+		//Set up rows
+		var rowObjects = [];
+		console.log(dataArray);
+
+		for(let i = 0; i < dataArray.length; i++)
+		{
+			rowObjects[i] = {};
+			rowObjects[i].id = dataArray[i].id;
+			rowObjects[i].executablePath = dataArray[i].executablePath;
+			rowObjects[i].origin = dataArray[i].originClientId;
+			rowObjects[i].dateCreated = dataArray[i].dateCreated;
+			//Get winapi values
+			Object.keys(dataArray[i].WinAPICounts).forEach(function(key,index)
+			{
+				rowObjects[i][key] = dataArray[i].WinAPICounts[key];
+			});
+		}
+		var rows: GridRowsProp = rowObjects;
+		
+		
 		return(
 			<>
-			
-				<DataGrid rows={rows} columns={columns}/>
+				<DataGrid rows={rows} columns={columns} sx={{my: 5}}/>
 			</>
 		);
 	}
@@ -101,7 +122,8 @@ function HomePage()
 					Description
 				</Typography>
 				<Typography>
-					A user-level process monitor that collects Windows API usage data from Windows pocesses for behavior analysis.
+					A user-level process monitor that collects Windows API usage data from Windows pocesses for behavior analysis. A sample
+					of the dataset can be found below:
 				</Typography>
 				<SampleTable/>
 				<Divider />
