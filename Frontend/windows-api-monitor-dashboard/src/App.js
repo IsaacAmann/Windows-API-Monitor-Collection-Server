@@ -9,7 +9,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 import APICallContainer from "./APICallContainer.js";
 
-import HomePage from "./Pages/HomePage/HomePage.js"
+import HomePage from "./Pages/HomePage/HomePage.js";
+import DatasetExplorer from "./Pages/DatasetExplorer/DatasetExplorer.js";
+import DataAnalysis from "./Pages/DataAnalysis/DataAnalysis.js";
 
 import { jwtDecode } from "jwt-decode";
 
@@ -94,6 +96,8 @@ function App() {
 				<Routes>
 					<Route path="/">
 						<Route index element={<HomePage />} />
+						<Route path="DatasetExplorer" element={<DatasetExplorer/>} />
+						<Route path="DataAnalysis" element={<DataAnalysis/>}/>
 					</Route>
 				</Routes>
 			</BrowserRouter>

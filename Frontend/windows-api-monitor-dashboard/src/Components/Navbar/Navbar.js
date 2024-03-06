@@ -27,6 +27,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Drawer from '@mui/material/Drawer';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { Link } from 'react-router-dom';
 
 import APICallContainer from "../../APICallContainer.js";
 
@@ -157,9 +158,20 @@ function Navbar()
 
 			<Toolbar>
 				<LoginForm/>
-				<Typography component="div" sx={{flexGrow: 1}}>
+				<Typography component="div" sx={{mr: 2}}>
 					Behavior Based Process Analysis
 				</Typography>
+				<Box sx={{flexGrow: 1}}>
+					<Button component={Link} to="/" variant="contained" color="secondary" sx={{mx: 1}}>
+						Home
+					</Button>
+					<Button component={Link} to="/DatasetExplorer" variant="contained" color="secondary" sx={{mx: 1}}>
+						Dataset Explorer
+					</Button>
+					<Button component={Link} to="/DataAnalysis" variant="contained" color="secondary" sx={{mx: 1}}>
+						Data Analysis
+					</Button>
+				</Box>
 				<a href="https://github.com/IsaacAmann/Windows-API-Monitor">
 					<GitHubIcon fontSize="large" sx={{mx: 2}}/>
 				</a>

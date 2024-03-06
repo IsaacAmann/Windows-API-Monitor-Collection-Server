@@ -17,6 +17,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 
+
 import APICallContainer from "../../APICallContainer.js";
 
 
@@ -126,7 +127,7 @@ function HomePage()
 					of the dataset can be found below:
 				</Typography>
 				<SampleTable/>
-				<Divider />
+				<Divider sx={{my: 2}}/>
 				
 				<Typography variant="h3">
 					Motivation
@@ -137,7 +138,7 @@ function HomePage()
 					would make a large amount of file access API calls. Other programs that made similiar numbers of file access calls would cluster with the ransomware sample.
 					Other processes that cluster with malware samples may also be malware.
 				</Typography>
-				<Divider />
+				<Divider sx={{my: 2}}/>
 				
 				<Typography variant="h3">
 					How it Works
@@ -175,7 +176,7 @@ function HomePage()
 				<Typography>
 					Collected data is posted to the server through HTTP using Curl.
 				</Typography>
-				<Divider />
+				<Divider sx={{my: 2}}/>
 				
 			</Container>
 		</>
