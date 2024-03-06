@@ -58,7 +58,7 @@ function SampleTable()
 		var apiRows = [];
 		
 		var dataArray = sampleResult.values.content;
-		
+		console.log(sampleResult);
 		//console.log(dataArray[0].WinAPICounts);
 		//Set up columns
 		Object.keys(dataArray[0].WinAPICounts).forEach(function(key,index) 

@@ -64,6 +64,21 @@ class APICallContainer
 		//console.log(result);
 		return result.data;
 	}
+	
+	async getDataPage(token, pageNumber, pageSize)
+	{
+		var url = "";
+		url = url.concat(apiURL, "/getDataPointPage");
+		var json = {};
+		json.token = token;
+		json.pageNumber = pageNumber;
+		json.pageSize = pageSize;
+		
+		var result = await axios.post(url, json);
+		
+		//console.log(result);
+		return result.data;
+	}
 }
 
 export default new APICallContainer();
