@@ -22,91 +22,7 @@ import APICallContainer from "../../APICallContainer.js";
 function DatasetExplorer()
 {
 	const loginInfo = useContext(LoginInfoContext);
-	
-	function SampleTable()
-	{
-		const [isLoading, setIsLoading] = useState(true);
-		const [sampleResult, setSampleResult] = useState(null);
-		
-		if(isLoading)
-		{
-			var response = APICallContainer.getDataSample().then(
-				function(value)
-				{			
-					setIsLoading(false);
-					setSampleResult(value);
-					//console.log(value);
-
-				}
-			);
-		}
-		
-		if(isLoading == true)
-		{
-			return(
-				<div style={{display: "flex", justifyContent: "center"}}>
-				<CircularProgress color="secondary" sx={{my: 10}}/>
-				</div>
-			);
-		}
-		else
-		{
-			//Grabbing windows api counts
-			var apiRows = [];
-			
-			var dataArray = sampleResult.values.content;
-			
-			//console.log(dataArray[0].WinAPICounts);
-			//Set up columns
-			Object.keys(dataArray[0].WinAPICounts).forEach(function(key,index) 
-			{
-				apiRows[index] = {};
-				apiRows[index].field = key;
-				apiRows[index].headerName = key;
-				apiRows[index].width = 200;
-			});
-			
-			console.log(apiRows);
-			
-			var colDefs = [
-					{field: 'id', headerName: "id", width: 50},
-					{field: 'executablePath', headerName: "executablePath", width: 1000},
-					{field: 'origin', headerName: 'originClientId', width: 325},
-					{field: 'dateCreated', headerName: 'dateCreated', width: 150}
-				];
-			
-			colDefs = colDefs.concat(apiRows);
-			//console.log(colDefs);
-			
-			var columns: GridColDef[] = colDefs;
-			
-			//Set up rows
-			var rowObjects = [];
-			console.log(dataArray);
-
-			for(let i = 0; i < dataArray.length; i++)
-			{
-				rowObjects[i] = {};
-				rowObjects[i].id = dataArray[i].id;
-				rowObjects[i].executablePath = dataArray[i].executablePath;
-				rowObjects[i].origin = dataArray[i].originClientId;
-				rowObjects[i].dateCreated = dataArray[i].dateCreated;
-				//Get winapi values
-				Object.keys(dataArray[i].WinAPICounts).forEach(function(key,index)
-				{
-					rowObjects[i][key] = dataArray[i].WinAPICounts[key];
-				});
-			}
-			var rows: GridRowsProp = rowObjects;
-			
-			
-			return(
-				<>
-					<DataGrid rows={rows} columns={columns} sx={{my: 5}}/>
-				</>
-			);
-		}
-	}
+	const elementsPerPage = 25;
 	
 	function FullDataTable()
 	{
@@ -118,7 +34,7 @@ function DatasetExplorer()
 			rows: [],
 			total: 0,
 			page: 0, 
-			pageSize: 2
+			pageSize: elementsPerPage
 		});
 		
 		function handlePageChange(model, details)
@@ -130,7 +46,7 @@ function DatasetExplorer()
 		{
 			tableState.loadPage = false;
 
-			var response = APICallContainer.getDataPage(loginInfo.token, tableState.page, 2).then(
+			var response = APICallContainer.getDataPage(loginInfo.token, tableState.page, elementsPerPage).then(
 				function(value)
 				{			
 					console.log(value);
@@ -157,8 +73,6 @@ function DatasetExplorer()
 			);
 		}
 		
-		
-		
 		if(tableState.isLoading == false)
 		{
 			//Grabbing windows api counts
@@ -184,10 +98,8 @@ function DatasetExplorer()
 			];
 			
 			colDefs = colDefs.concat(apiRows);
-
 		
 			var columns: GridColDef[] = colDefs;
-			
 			
 			return(
 				<>
@@ -197,10 +109,9 @@ function DatasetExplorer()
 						columns={columns} 
 						paginationMode="server"
 						sx={{my:3}}
-						rowCount={2}
 						paginationModel={{page: tableState.page, pageSize: tableState.pageSize}}
 						onPaginationModelChange={handlePageChange}
-						pageSizeOptions={[2]}
+						pageSizeOptions={[elementsPerPage]}
 						rowCount={tableState.total}
 					/>
 				</>
@@ -215,7 +126,6 @@ function DatasetExplorer()
 			);
 		}
 	}
-
 
 	if(loginInfo.token != null)
 	{
@@ -237,6 +147,5 @@ function DatasetExplorer()
 		);
 	}
 }
-
 
 export default DatasetExplorer;
