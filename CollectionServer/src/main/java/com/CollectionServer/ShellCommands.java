@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.security.NoSuchAlgorithmException;
 
+import java.util.UUID;
+
 @ShellComponent
 public class ShellCommands
 {
@@ -19,6 +21,9 @@ public class ShellCommands
 
     @Autowired
     private CollectionClientRepository collectionClientRepository;
+    
+    @Autowired 
+    private DataPointRepository dataPointRepository;
 
     @ShellMethod(key = "createUser")
     public String createUser(@ShellOption String username, @ShellOption String password) throws NoSuchAlgorithmException
@@ -65,4 +70,20 @@ public class ShellCommands
         }
         return output;
     }
+    
+    @ShellMethod(key = "createTestDatapoints")
+    public String createTestDatapoints(int numberPoints)
+    {
+		for(int i = 0; i < numberPoints; i++)
+		{
+			//Create new datapoint
+            DataPointEntity dataPoint= new DataPointEntity();
+            //dataPoint.WinAPICounts = winAPICalls;
+            dataPoint.originClientId = UUID.randomUUID();
+            dataPoint.executablePath = "TEST DATA POINT";
+            dataPointRepository.save(dataPoint);
+		}
+		
+		return "Created " + numberPoints + " test data points";
+	}
 }

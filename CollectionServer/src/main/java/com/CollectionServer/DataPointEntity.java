@@ -27,7 +27,6 @@ public class DataPointEntity
 	public Date dateCreated;
 
 	@ElementCollection
-
 	public Map<String, Integer> WinAPICounts;
 
 	public DataPointEntity()
