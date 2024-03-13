@@ -112,25 +112,47 @@ function DatasetExplorer()
 	{
 		const [tableState, setTableState] = useState( 
 		{
-			requestedFirst: false,
+			currentResponse: null,
+			loadPage: true,
 			isLoading: true,
 			rows: [],
 			total: 0,
-			page: 1, 
-			pageSize: 10
+			page: 0, 
+			pageSize: 2
 		});
 		
-		const [firstRequest, setFirstRequest] = useState(null);
-		
-		if(tableState.requestedFirst == false)
+		function handlePageChange(model, details)
 		{
-			var response = APICallContainer.getDataPage(loginInfo.token, 0, 10).then(
+			setTableState({...tableState, page: model.page, loadPage: true, isLoading: true});
+		}
+		//Request a page from the server
+		if(tableState.loadPage == true)
+		{
+			tableState.loadPage = false;
+
+			var response = APICallContainer.getDataPage(loginInfo.token, tableState.page, 2).then(
 				function(value)
 				{			
-					setFirstRequest(value);
-					//console.log(value);
-					setFirstRequest(value);
-					setTableState({...tableState, isLoading: false})
+					console.log(value);
+					//Set up rows
+					var rowObjects = [];
+					var dataArray = value.values.content;
+					for(let i = 0; i < dataArray.length; i++)
+					{
+						rowObjects[i] = {};
+						rowObjects[i].id = dataArray[i].id;
+						rowObjects[i].executablePath = dataArray[i].executablePath;
+						rowObjects[i].origin = dataArray[i].originClientId;
+						rowObjects[i].dateCreated = dataArray[i].dateCreated;
+						//Get winapi values
+						Object.keys(dataArray[i].WinAPICounts).forEach(function(key,index)
+						{
+							rowObjects[i][key] = dataArray[i].WinAPICounts[key];
+						});
+					}
+					
+					var rows: GridRowsProp = rowObjects;
+					setTableState({...tableState, isLoading: false, currentResponse: value.values.content, rows: rows, total: value.values.totalElements})
 				}
 			);
 		}
@@ -142,7 +164,7 @@ function DatasetExplorer()
 			//Grabbing windows api counts
 			var apiRows = [];
 		
-			var dataArray = firstRequest.values.content;
+			var dataArray = tableState.currentResponse;
 			
 			//console.log(dataArray[0].WinAPICounts);
 			//Set up columns
@@ -160,14 +182,26 @@ function DatasetExplorer()
 				{field: 'origin', headerName: 'originClientId', width: 325},
 				{field: 'dateCreated', headerName: 'dateCreated', width: 150}
 			];
+			
+			colDefs = colDefs.concat(apiRows);
+
 		
 			var columns: GridColDef[] = colDefs;
+			
+			
 			return(
 				<>
 					<DataGrid
-						rows={tableState.rows} 
+						rows={tableState.rows}
+						loading={tableState.isLoading} 
 						columns={columns} 
+						paginationMode="server"
 						sx={{my:3}}
+						rowCount={2}
+						paginationModel={{page: tableState.page, pageSize: tableState.pageSize}}
+						onPaginationModelChange={handlePageChange}
+						pageSizeOptions={[2]}
+						rowCount={tableState.total}
 					/>
 				</>
 			);
