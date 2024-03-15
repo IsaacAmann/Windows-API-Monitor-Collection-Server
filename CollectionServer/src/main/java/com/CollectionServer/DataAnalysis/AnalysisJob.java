@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 import java.util.Map;
+import java.util.HashMap;
 
 @Entity
 public class AnalysisJob 
@@ -28,6 +29,10 @@ public class AnalysisJob
 	@ElementCollection
 	public Map<Integer, Integer> clusters;
 	
+	//Map for storing parameters passed to the analysis method for later reference
+	@ElementCollection
+	public Map<String, String> parameters;
+	
 	public Date timeStarted;
 	
 	public Date timeFinished;
@@ -39,6 +44,7 @@ public class AnalysisJob
 	public AnalysisJob(AnalysisMethod analysisMethod)
 	{
 		this.analysisMethod = analysisMethod;
+		parameters = new HashMap<String, String>();
 		analysisType = analysisMethod.analysisType;
 		jobStatus = JobStatus.SUBMITTED;
 		analysisMethod.parentJob = this;
@@ -50,6 +56,8 @@ public class AnalysisJob
 		{
 			//Start running analysisMethod
 			analysisMethod.start();
+			jobStatus = JobStatus.RUNNING;
+			timeStarted = new Date();
 		}
 	}
 }

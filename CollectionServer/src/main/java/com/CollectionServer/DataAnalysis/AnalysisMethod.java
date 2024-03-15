@@ -1,6 +1,8 @@
 package com.CollectionServer.DataAnalysis;
 
 import java.util.HashMap;
+import java.util.Date;
+
 
 public abstract class AnalysisMethod
 {
@@ -17,6 +19,13 @@ public abstract class AnalysisMethod
 	public AnalysisMethod()
 	{
 		clusters = new HashMap<Integer, Integer>();
+	}
+	
+	public void finish()
+	{
+		parentJob.clusters = this.clusters;
+		parentJob.timeFinished = new Date();
+		parentJob.jobStatus = AnalysisJob.JobStatus.COMPLETED;
 	}
 	
 	public abstract void start();
