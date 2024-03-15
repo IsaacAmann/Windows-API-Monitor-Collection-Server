@@ -8,10 +8,14 @@ import com.CollectionServer.UserManagement.UserAccount;
 import com.CollectionServer.UserManagement.UserAccountRepository;
 import org.springframework.shell.standard.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.CollectionServer.DataAnalysis.*;
+
+import com.CollectionServer.Services.AnalysisJobService;
 
 import java.security.NoSuchAlgorithmException;
 
 import java.util.UUID;
+import java.util.ArrayList;
 
 @ShellComponent
 public class ShellCommands
@@ -24,6 +28,9 @@ public class ShellCommands
     
     @Autowired 
     private DataPointRepository dataPointRepository;
+    
+    @Autowired
+    private AnalysisJobService analysisJobService;
 
     @ShellMethod(key = "createUser")
     public String createUser(@ShellOption String username, @ShellOption String password) throws NoSuchAlgorithmException
@@ -85,5 +92,21 @@ public class ShellCommands
 		}
 		
 		return "Created " + numberPoints + " test data points";
+	}
+	
+	@ShellMethod(key = "testSowAndGrow")
+	public String testSowAndGrow()
+	{
+		ArrayList<Integer> seedList = new ArrayList<Integer>();
+		seedList.add(0);
+		seedList.add(1);
+		
+		RunSowAndGrow sowAndGrow = new RunSowAndGrow(seedList, 25, 4);
+		
+		AnalysisJob testJob = new AnalysisJob(sowAndGrow);
+		
+		analysisJobService.submitAnalysisJob(testJob);
+		
+		return "Submitted test job";
 	}
 }
