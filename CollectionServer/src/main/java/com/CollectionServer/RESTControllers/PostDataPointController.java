@@ -46,6 +46,7 @@ public class PostDataPointController
             //Create new datapoint
             DataPointEntity dataPoint= new DataPointEntity();
             dataPoint.WinAPICounts = winAPICalls;
+            dataPoint.updateRatios();
             dataPoint.originClientId = UUID.fromString(uuid);
             dataPoint.executablePath = executablePath;
             dataPointRepository.save(dataPoint);

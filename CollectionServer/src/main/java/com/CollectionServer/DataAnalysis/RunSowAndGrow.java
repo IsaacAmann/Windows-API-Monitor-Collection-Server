@@ -2,7 +2,8 @@ package com.CollectionServer.DataAnalysis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-
+import com.CollectionServer.DataPointRepository;
+import com.CollectionServer.DataPointEntity;
 import java.util.ArrayList;
 
 import java.lang.Thread;
@@ -12,7 +13,8 @@ import java.io.FileWriter;
 
 public class RunSowAndGrow extends AnalysisMethod
 {
-
+	@Autowired
+	private DataPointRepository dataPointRepository;
 	
 	public ArrayList<Integer> seedPoints;
 	int epsilon;
@@ -54,18 +56,39 @@ public class RunSowAndGrow extends AnalysisMethod
 				//Create seed file
 				File seedFile = new File(directoryPath, "seeds");
 				seedFile.getParentFile().mkdirs();
-				if(seedFile.createNewFile())
-				{
-					System.out.println("Created");
-				}
-				else
-				{
-					System.out.println("Failed");
-				}
-				FileWriter seedWriter = new FileWriter(seedFile);
-				//Create input CSV file from database
-			
+				seedFile.createNewFile();
 				//Push seeds into seed file
+				FileWriter seedWriter = new FileWriter(seedFile);
+				for(int i = 0; i < seedPoints.size(); i++)
+				{
+					System.out.println(Integer.toString(seedPoints.get(i)));
+					seedWriter.write(Integer.toString(seedPoints.get(i)));
+					seedWriter.write("\n");
+				}
+				seedWriter.close();
+				//Create input CSV file from database
+				File dataPointFile = new File(directoryPath, "input.csv");
+				dataPointFile.createNewFile();
+				FileWriter dataWriter = new FileWriter(dataPointFile);
+				
+				ArrayList<DataPointEntity> dataPoints = new ArrayList<DataPointEntity>();
+				for(DataPointEntity datapoint : dataPointRepository.findAll())
+				{
+					dataPoints.add(datapoint);
+				}
+				
+				for(int i = 0; i < dataPoints.size(); i++)
+				{
+					for(Float value : dataPoints.get(i).winAPIRatios.values())
+					{
+						
+					}
+					if(i > 0)
+					{
+						dataWriter.write(", ");
+					}
+					
+				}
 			
 				//Run SowAndGrow 
 			
