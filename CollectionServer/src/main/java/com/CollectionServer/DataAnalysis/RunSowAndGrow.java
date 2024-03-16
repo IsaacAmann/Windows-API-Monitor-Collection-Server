@@ -7,6 +7,7 @@ import com.CollectionServer.DataPointEntity;
 import java.util.ArrayList;
 
 import java.lang.Thread;
+import java.lang.Process;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter; 
@@ -93,11 +94,23 @@ public class RunSowAndGrow extends AnalysisMethod
 				}
 				dataWriter.close();
 				//Run SowAndGrow 
-			
+				String command = "./analysis/bsng -z 5 -t 1 ";
+				String commandDirectory = "./analysis/job" + parentJob.Id +"/";
+				command = command + "-o " + commandDirectory + "out.txt ";
+				command = command + "-i " + commandDirectory + "input.csv ";
+				command = command + "-e " + epsilon +" ";
+				command = command + "-m " + minPoints +" ";
+				command = command + "-u " + commandDirectory + "clusterOut.csv ";
+				command = command + "-l " + commandDirectory + "seeds ";
+				
+				System.out.println(command);
+				
+				Process process = Runtime.getRuntime().exec(command);
+				process.waitFor();
 				//Parse output and write clusters
 				//Values should appear in the same order as the dataPoints arraylist
 			}
-			catch(IOException e)
+			catch(Exception e)
 			{
 				e.printStackTrace();
 			}
