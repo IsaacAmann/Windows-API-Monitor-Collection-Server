@@ -31,6 +31,17 @@ public class AnalysisJobService
 		//Start job
 		newJob.startJob();
 	}
+	
+	public void handleJobComplete(AnalysisJob job)
+	{
+		if(job.jobStatus == AnalysisJob.JobStatus.COMPLETED)
+		{
+			//Save to data base
+			analysisJobRepository.save(job);
+			//Find and remove from hashmap
+			runningJobs.remove(job.Id);
+		}
+	}
 }
 
 

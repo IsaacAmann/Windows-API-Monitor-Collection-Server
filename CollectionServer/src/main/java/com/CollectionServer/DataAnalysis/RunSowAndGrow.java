@@ -11,6 +11,7 @@ import java.lang.Process;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter; 
+import java.util.Scanner;
 
 public class RunSowAndGrow extends AnalysisMethod
 {
@@ -30,6 +31,9 @@ public class RunSowAndGrow extends AnalysisMethod
 	@Override
 	public void start()
 	{
+		//Place parameters into parent job object
+		parentJob.parameters.put("epsilon", Integer.toString(epsilon));
+		parentJob.parameters.put("MinimumPoints", Integer.toString(minPoints));
 		//Execute SowAndGrow thread
 		SowAndGrowThread thread = new SowAndGrowThread();
 		thread.start();
@@ -107,8 +111,29 @@ public class RunSowAndGrow extends AnalysisMethod
 				
 				Process process = Runtime.getRuntime().exec(command);
 				process.waitFor();
+				
 				//Parse output and write clusters
 				//Values should appear in the same order as the dataPoints arraylist
+				File outFile = new File(directoryPath, "clusterOut.csv");
+				Scanner outReader = new Scanner(outFile);
+				int currentIndex = 0;
+				while(outReader.hasNextLine())
+				{
+					String currentLine = outReader.nextLine();
+					//Get cluster label from line (first entry in csv row)
+					String[] subStrings = currentLine.split(",");
+					int clusterLabel = Integer.parseInt(subStrings[0]);
+					System.out.println(clusterLabel);
+					
+					//If datapoint clustered, place it in clusters map
+					if(clusterLabel != 0)
+					{
+						clusters.put(dataPoints.get(currentIndex).id, clusterLabel);
+					}
+					
+					currentIndex++;
+				}
+				
 			}
 			catch(Exception e)
 			{

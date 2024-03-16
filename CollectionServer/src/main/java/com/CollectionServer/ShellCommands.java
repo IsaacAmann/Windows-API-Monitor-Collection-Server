@@ -103,7 +103,7 @@ public class ShellCommands
 		
 		RunSowAndGrow sowAndGrow = new RunSowAndGrow(seedList, 25, 4);
 		
-		AnalysisJob testJob = new AnalysisJob(sowAndGrow, dataPointRepository);
+		AnalysisJob testJob = new AnalysisJob(sowAndGrow, dataPointRepository, analysisJobService);
 		
 		analysisJobService.submitAnalysisJob(testJob);
 		

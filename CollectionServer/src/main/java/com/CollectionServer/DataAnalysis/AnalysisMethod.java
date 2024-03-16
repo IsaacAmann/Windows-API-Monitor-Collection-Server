@@ -26,6 +26,8 @@ public abstract class AnalysisMethod
 		parentJob.clusters = this.clusters;
 		parentJob.timeFinished = new Date();
 		parentJob.jobStatus = AnalysisJob.JobStatus.COMPLETED;
+		
+		parentJob.analysisJobService.handleJobComplete(parentJob);
 	}
 	
 	public abstract void start();
