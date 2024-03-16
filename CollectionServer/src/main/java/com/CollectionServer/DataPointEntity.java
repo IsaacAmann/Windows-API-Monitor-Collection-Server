@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
+import jakarta.annotation.*;
+import jakarta.validation.constraints.*;
 
 import java.util.Date;
 import java.util.Map;
@@ -27,11 +29,11 @@ public class DataPointEntity
 
 	public Date dateCreated;
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	public Map<String, Integer> WinAPICounts;
 	
-	@ElementCollection
-	public HashMap<String, Float> winAPIRatios;
+	@ElementCollection(fetch = FetchType.EAGER)
+	public Map<String, Float> winAPIRatios;
 
 	public DataPointEntity()
 	{
@@ -52,9 +54,10 @@ public class DataPointEntity
 		{
 			String key = entry.getKey();
 			Integer value = entry.getValue();
+			float ratio = ((float)value) / totalCalls;
+			
+			winAPIRatios.put(key, ratio);
 		}
-		
-		
 	}
 
 	/*

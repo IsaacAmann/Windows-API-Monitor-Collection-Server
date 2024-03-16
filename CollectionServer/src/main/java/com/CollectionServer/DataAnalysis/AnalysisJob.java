@@ -2,6 +2,8 @@ package com.CollectionServer.DataAnalysis;
 
 import jakarta.persistence.*;
 
+import com.CollectionServer.DataPointRepository;
+
 import java.util.Date;
 
 import java.util.Map;
@@ -33,6 +35,9 @@ public class AnalysisJob
 	@ElementCollection
 	public Map<String, String> parameters;
 	
+	@Transient
+	public DataPointRepository dataPointRepository;
+	
 	public Date timeStarted;
 	
 	public Date timeFinished;
@@ -41,13 +46,14 @@ public class AnalysisJob
 	
 	public JobStatus jobStatus;
 	
-	public AnalysisJob(AnalysisMethod analysisMethod)
+	public AnalysisJob(AnalysisMethod analysisMethod, DataPointRepository dataPointRepository)
 	{
 		this.analysisMethod = analysisMethod;
 		parameters = new HashMap<String, String>();
 		analysisType = analysisMethod.analysisType;
 		jobStatus = JobStatus.SUBMITTED;
 		analysisMethod.parentJob = this;
+		this.dataPointRepository = dataPointRepository;
 	}
 	
 	public void startJob()

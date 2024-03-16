@@ -13,8 +13,6 @@ import java.io.FileWriter;
 
 public class RunSowAndGrow extends AnalysisMethod
 {
-	@Autowired
-	private DataPointRepository dataPointRepository;
 	
 	public ArrayList<Integer> seedPoints;
 	int epsilon;
@@ -42,9 +40,11 @@ public class RunSowAndGrow extends AnalysisMethod
 		super.finish();
 	}
 	
+	
 	private class SowAndGrowThread extends Thread
 	{
-		
+		@Autowired
+		private DataPointRepository dataPointRepository;
 		@Override
 		public void run()
 		{
@@ -72,27 +72,30 @@ public class RunSowAndGrow extends AnalysisMethod
 				FileWriter dataWriter = new FileWriter(dataPointFile);
 				
 				ArrayList<DataPointEntity> dataPoints = new ArrayList<DataPointEntity>();
-				for(DataPointEntity datapoint : dataPointRepository.findAll())
+				for(DataPointEntity datapoint : parentJob.dataPointRepository.findAll())
 				{
 					dataPoints.add(datapoint);
 				}
 				
 				for(int i = 0; i < dataPoints.size(); i++)
 				{
+					int column = 0;
 					for(Float value : dataPoints.get(i).winAPIRatios.values())
 					{
-						
+						if(column > 0)
+						{
+							dataWriter.write(", ");
+						}
+						dataWriter.write(Float.toString(value));
+						column++;
 					}
-					if(i > 0)
-					{
-						dataWriter.write(", ");
-					}
-					
+					dataWriter.write("\n");
 				}
-			
+				dataWriter.close();
 				//Run SowAndGrow 
 			
 				//Parse output and write clusters
+				//Values should appear in the same order as the dataPoints arraylist
 			}
 			catch(IOException e)
 			{

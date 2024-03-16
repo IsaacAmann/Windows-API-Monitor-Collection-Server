@@ -103,10 +103,20 @@ public class ShellCommands
 		
 		RunSowAndGrow sowAndGrow = new RunSowAndGrow(seedList, 25, 4);
 		
-		AnalysisJob testJob = new AnalysisJob(sowAndGrow);
+		AnalysisJob testJob = new AnalysisJob(sowAndGrow, dataPointRepository);
 		
 		analysisJobService.submitAnalysisJob(testJob);
 		
 		return "Submitted test job";
+	}
+	
+	@ShellMethod(key = "updateRatios")
+	public void updateRatios()
+	{
+		for(DataPointEntity datapoint : dataPointRepository.findAll())
+		{
+			datapoint.updateRatios();
+			dataPointRepository.save(datapoint);
+		}
 	}
 }
