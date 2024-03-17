@@ -98,8 +98,8 @@ public class ShellCommands
 	public String testSowAndGrow()
 	{
 		ArrayList<Integer> seedList = new ArrayList<Integer>();
-		seedList.add(0);
 		seedList.add(1);
+		seedList.add(53);
 		
 		RunSowAndGrow sowAndGrow = new RunSowAndGrow(seedList, 25, 4);
 		

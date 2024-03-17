@@ -6,15 +6,10 @@ import java.util.Date;
 
 public abstract class AnalysisMethod
 {
-	public enum AnalysisType
-	{
-		SOW_AND_GROW;
-	}
-	
 	//Map datapoint ID's to a cluster ID using the clustering algroithm implemented
 	public HashMap<Integer, Integer> clusters;
-	public AnalysisType analysisType;
 	public AnalysisJob parentJob;
+	public AnalysisJob.AnalysisType analysisType;
 	
 	public AnalysisMethod()
 	{

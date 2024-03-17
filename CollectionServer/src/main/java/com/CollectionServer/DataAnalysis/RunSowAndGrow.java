@@ -26,6 +26,8 @@ public class RunSowAndGrow extends AnalysisMethod
 		this.seedPoints = seedPoints;
 		this.epsilon = epsilon;
 		this.minPoints = minPoints;
+		this.analysisType = AnalysisJob.AnalysisType.SOW_AND_GROW;
+		
 	}
 	
 	@Override
@@ -58,21 +60,11 @@ public class RunSowAndGrow extends AnalysisMethod
 			System.out.println(directoryPath);
 			try
 			{
-				//Create seed file
-				File seedFile = new File(directoryPath, "seeds");
-				seedFile.getParentFile().mkdirs();
-				seedFile.createNewFile();
-				//Push seeds into seed file
-				FileWriter seedWriter = new FileWriter(seedFile);
-				for(int i = 0; i < seedPoints.size(); i++)
-				{
-					System.out.println(Integer.toString(seedPoints.get(i)));
-					seedWriter.write(Integer.toString(seedPoints.get(i)));
-					seedWriter.write("\n");
-				}
-				seedWriter.close();
+				
+				ArrayList<Integer> seedPointIndexes = new ArrayList<Integer>();
 				//Create input CSV file from database
 				File dataPointFile = new File(directoryPath, "input.csv");
+				dataPointFile.getParentFile().mkdirs();
 				dataPointFile.createNewFile();
 				FileWriter dataWriter = new FileWriter(dataPointFile);
 				
@@ -80,6 +72,14 @@ public class RunSowAndGrow extends AnalysisMethod
 				for(DataPointEntity datapoint : parentJob.dataPointRepository.findAll())
 				{
 					dataPoints.add(datapoint);
+					for(int i = 0; i < seedPoints.size(); i++)
+					{
+						if(datapoint.id == seedPoints.get(i))
+						{
+							//Add seed point's index into seed point indexes
+							seedPointIndexes.add(dataPoints.size()-1);
+						}
+					}
 				}
 				
 				for(int i = 0; i < dataPoints.size(); i++)
@@ -97,6 +97,21 @@ public class RunSowAndGrow extends AnalysisMethod
 					dataWriter.write("\n");
 				}
 				dataWriter.close();
+				
+				//Create seed file
+				File seedFile = new File(directoryPath, "seeds");
+				//seedFile.getParentFile().mkdirs();
+				seedFile.createNewFile();
+				//Push seeds into seed file
+				FileWriter seedWriter = new FileWriter(seedFile);
+				for(int i = 0; i < seedPointIndexes.size(); i++)
+				{
+					System.out.println(Integer.toString(seedPointIndexes.get(i)));
+					seedWriter.write(Integer.toString(seedPointIndexes.get(i)));
+					seedWriter.write("\n");
+				}
+				seedWriter.close();
+				
 				//Run SowAndGrow 
 				String command = "./analysis/bsng -z 5 -t 1 ";
 				String commandDirectory = "./analysis/job" + parentJob.Id +"/";

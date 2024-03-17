@@ -21,6 +21,12 @@ public class AnalysisJob
 		FAILED;
 	}
 	
+	public enum AnalysisType
+	{
+		DBSCAN_COSINE,
+		SOW_AND_GROW;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Integer Id;
@@ -46,7 +52,7 @@ public class AnalysisJob
 	
 	public Date timeFinished;
 		
-	public AnalysisMethod.AnalysisType analysisType;
+	public AnalysisType analysisType;
 	
 	public JobStatus jobStatus;
 	
@@ -57,11 +63,11 @@ public class AnalysisJob
 	
 	public AnalysisJob(AnalysisMethod analysisMethod, DataPointRepository dataPointRepository, AnalysisJobService analysisJobService)
 	{
+		analysisMethod.parentJob = this;
 		this.analysisMethod = analysisMethod;
 		parameters = new HashMap<String, String>();
-		analysisType = analysisMethod.analysisType;
+		this.analysisType = analysisMethod.analysisType;
 		jobStatus = JobStatus.SUBMITTED;
-		analysisMethod.parentJob = this;
 		this.dataPointRepository = dataPointRepository;
 		this.analysisJobService = analysisJobService;
 	}
