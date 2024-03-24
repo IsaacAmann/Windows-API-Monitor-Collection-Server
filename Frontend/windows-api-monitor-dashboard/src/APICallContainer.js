@@ -79,6 +79,36 @@ class APICallContainer
 		//console.log(result);
 		return result.data;
 	}
+	
+	async getAnalysisJobPage(token, pageNumber, pageSize)
+	{
+		var url = "";
+		url = url.concat(apiURL, "/getAnalysisJobPage");
+		var json = {};
+		json.token = token;
+		json.pageNumber = pageNumber;
+		json.pageSize = pageSize;
+		
+		var result = await axios.post(url, json);
+		
+		//console.log(result);
+		return result.data;
+	}
+	
+	async inspectAnalysisJob(token, id)
+	{
+		var url = "";
+		url = url.concat(apiURL, "/inspectAnalysisJob");
+		var json = {};
+		json.token = token;
+		
+		var result = await axios.post(url, json);
+		
+		//console.log(result);
+		return result.data;
+	}
+	
+	
 }
 
 export default new APICallContainer();
