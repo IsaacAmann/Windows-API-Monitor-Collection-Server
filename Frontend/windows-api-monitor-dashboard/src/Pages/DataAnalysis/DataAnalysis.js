@@ -15,6 +15,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
+import Backdrop from '@mui/material/Backdrop';
+
 
 
 import Navbar from "../../Components/Navbar/Navbar.js"
@@ -44,12 +46,47 @@ function DataAnalysis()
 
 		function InspectJobButton()
 		{
-			if(selectedElement != null)
+			const [displayJob, setDisplayJob] = useState(false);
+			
+			function handleClick()
+			{
+				setDisplayJob(true);
+			}
+			
+			function getJobString()
+			{
+				let values = tableState.currentResponse.filter((e) => {return e.id === selectedElement.id});
+				console.log(values);
+				return JSON.stringify(values[0], null, 2);
+			}
+			
+			if(selectedElement != null && displayJob == false)
 			{
 				return(
 					<>
-						<Button variant="contained">Inspect Selected Job</Button>
+						<Button variant="contained" onClick={() => handleClick()}>Inspect Selected Job</Button>
+						
 					</>
+				);
+			}
+			else if(selectedElement != null && displayJob == true)
+			{
+				return(
+					<Backdrop sx={{color: '#fff', zIndex: 5}} open={displayJob} >
+						<Container>
+							<Button variant="contained" onClick={() => setDisplayJob(false)}>Close</Button>
+							<Typography variant="h3">Data Analysis Job</Typography>
+						
+							<Typography>
+								<pre>
+									{
+										getJobString()
+									}
+								</pre>
+							</Typography>
+							
+						</Container>
+					</Backdrop>
 				);
 			}
 			else
