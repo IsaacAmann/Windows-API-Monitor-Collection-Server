@@ -29,7 +29,7 @@ public class AnalysisJob
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Integer Id;
+	public Integer id;
 	
 	@Transient
 	public AnalysisMethod analysisMethod;

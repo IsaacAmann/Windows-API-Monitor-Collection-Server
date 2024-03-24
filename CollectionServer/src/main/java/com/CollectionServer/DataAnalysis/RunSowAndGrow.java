@@ -56,7 +56,7 @@ public class RunSowAndGrow extends AnalysisMethod
 		public void run()
 		{
 			String directoryPath = System.getProperty("user.dir") + "/analysis/job";
-			directoryPath = directoryPath + parentJob.Id;
+			directoryPath = directoryPath + parentJob.id;
 			System.out.println(directoryPath);
 			try
 			{
@@ -114,7 +114,7 @@ public class RunSowAndGrow extends AnalysisMethod
 				
 				//Run SowAndGrow 
 				String command = "./analysis/bsng -z 5 -t 1 ";
-				String commandDirectory = "./analysis/job" + parentJob.Id +"/";
+				String commandDirectory = "./analysis/job" + parentJob.id +"/";
 				command = command + "-o " + commandDirectory + "out.txt ";
 				command = command + "-i " + commandDirectory + "input.csv ";
 				command = command + "-e " + epsilon +" ";

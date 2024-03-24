@@ -26,7 +26,7 @@ public class AnalysisJobService
 		analysisJobRepository.save(newJob);
 		
 		//Put job into hashmap
-		runningJobs.put(newJob.Id, newJob);
+		runningJobs.put(newJob.id, newJob);
 		
 		//Start job
 		newJob.startJob();
@@ -39,7 +39,7 @@ public class AnalysisJobService
 			//Save to data base
 			analysisJobRepository.save(job);
 			//Find and remove from hashmap
-			runningJobs.remove(job.Id);
+			runningJobs.remove(job.id);
 		}
 	}
 }
