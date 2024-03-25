@@ -108,6 +108,23 @@ class APICallContainer
 		return result.data;
 	}
 	
+	async postAnalysisJob(token, inputValues)
+	{
+		var url = "";
+		url = url.concat(apiURL, "/postAnalysisJob");
+		var json = {};
+		json.token = token;
+		json.epsilon = inputValues.epsilon;
+		json.jobType = inputValues.jobType;
+		json.minPoints = inputValues.minPoints;
+		json.seedPoints = inputValues.seedPoints;
+		
+		var result = await axios.post(url, json);
+		
+		//console.log(result);
+		return result.data;
+	}
+	
 	
 }
 

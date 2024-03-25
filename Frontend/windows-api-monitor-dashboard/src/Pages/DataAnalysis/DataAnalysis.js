@@ -16,7 +16,11 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import Backdrop from '@mui/material/Backdrop';
-
+import { FormControl } from '@mui/material';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
 
 
 import Navbar from "../../Components/Navbar/Navbar.js"
@@ -44,6 +48,78 @@ function DataAnalysis()
 		});
 		const [selectedElement, setSelectedElement] = useState(null);
 
+		const [submitJobActive, setSubmitJobActive] = useState(false);
+		function SubmitJobForm()
+		{
+			const [inputValues, setInputValues] = useState(
+			{
+				epsilon: null,
+				minPoints: null,
+				seedPoints: [],
+				jobType: null
+			}
+			);
+			
+			const [currentSeedPoint, setCurrentSeedPoint] = useState(null);
+			
+			function handleSubmit()
+			{
+				console.log(inputValues);
+				var response = APICallContainer.postAnalysisJob(loginInfo.token, inputValues).then(
+					function(value)
+					{			
+						console.log(value);
+					}
+				);
+			}
+			
+			function addSeed()
+			{
+				if(currentSeedPoint != null || currentSeedPoint != undefined)
+				{
+					console.log(currentSeedPoint);
+					let newArray = inputValues.seedPoints;
+					newArray.push(currentSeedPoint);
+					setInputValues({...inputValues, seedPoints: newArray});
+					setCurrentSeedPoint(0);
+				}
+			}
+			
+			if(submitJobActive == true)
+			{
+				return(
+					<>
+						<Backdrop sx={{color: '#fff', zIndex: 5, display: "block"}} open={submitJobActive} >
+							<Button variant="contained" onClick={() => setSubmitJobActive(false)}>Close</Button>
+							<Container sx={{bgcolor: "grey", maxWidth: "lg"}}>
+								<Typography variant="h3"> Submit New Analysis Job </Typography>
+								<FormControl fullWidth size="medium">
+									<InputLabel id="analysisType">Analysis Type</InputLabel>
+									<Select  labelId="analysisType" value={inputValues.jobType} label="Job Type" required onChange={(e) => setInputValues({...inputValues, jobType: e.target.value})}>
+										<MenuItem value={"SOW_AND_GROW"}>Sow and Grow</MenuItem>
+										<MenuItem value={"DBSCAN_COSINE"}>DBSCAN with Cosine Similarity</MenuItem>
+									</Select>
+									
+									<TextField  type="number" label="Epsilon" value={inputValues.epsilon} required onChange={(e) => setInputValues({...inputValues, epsilon: Number(e.target.value)})} />
+									<TextField  type="number" label="minPoints" value={inputValues.minPoints} required onChange={(e) => setInputValues({...inputValues, minPoints: Number(e.target.value)})} />
+									<Container sx={{display: "flex"}}>
+										<TextField type="number" label="seedPoints" value={currentSeedPoint} onChange={(e) => setCurrentSeedPoint(Number(e.target.value))}  />
+										<Button variant="outline" onClick={addSeed}>Add Seed</Button>
+									</Container>
+									
+									<Button variant="outline" onClick={handleSubmit}>Submit Job</Button>
+								</FormControl>
+							</Container>
+						</Backdrop>
+					</>
+				);
+			}
+			else
+			{
+				return null;
+			}
+		}
+		
 		function InspectJobButton()
 		{
 			const [displayJob, setDisplayJob] = useState(false);
@@ -72,9 +148,10 @@ function DataAnalysis()
 			else if(selectedElement != null && displayJob == true)
 			{
 				return(
-					<Backdrop sx={{color: '#fff', zIndex: 5}} open={displayJob} >
-						<Container>
-							<Button variant="contained" onClick={() => setDisplayJob(false)}>Close</Button>
+					<Backdrop sx={{color: '#ffff', zIndex: 5, display: "block"}} open={displayJob} >
+												<Button variant="contained" onClick={() => setDisplayJob(false)}>Close</Button>
+
+						<Container sx={{bgcolor: "grey", maxWidth: "lg"}}>
 							<Typography variant="h3">Data Analysis Job</Typography>
 						
 							<Typography>
@@ -163,6 +240,7 @@ function DataAnalysis()
 			
 			return(
 				<>
+					<Button variant="contained" onClick={() => setSubmitJobActive(true)}>Submit New Job</Button>
 					<DataGrid
 						rows={tableState.rows}
 						loading={tableState.isLoading} 
@@ -176,6 +254,7 @@ function DataAnalysis()
 						onRowSelectionModelChange={handleSelectionChange}
 					/>
 					<InspectJobButton/>
+					<SubmitJobForm/>
 				</>
 			);
 		}
