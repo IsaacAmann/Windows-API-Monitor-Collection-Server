@@ -127,6 +127,22 @@ function Navbar()
 		}
 	}
 	
+	function AdminDashboardLink()
+	{
+		if(loginInfo.userRole == "ADMIN")
+		{
+			return(
+				<Button component={Link} to="/AdminDashboard" variant="contained" color="secondary" sx={{mx: 1}}>
+					Admin Dashboard
+				</Button>
+			);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
 	function LoginForm()
 	{
 		return(
@@ -141,7 +157,7 @@ function Navbar()
 				<form onSubmit={handleLogin}>
 					<Stack>
 						<TextField id="usernameField" label="Username" variant="filled" inputRef={usernameRef}/>
-						<TextField id="passwordField" label="Password" variant="filled" inputRef={passwordRef}/>
+						<TextField id="passwordField" label="Password" variant="filled" type="password" inputRef={passwordRef}/>
 
 						<Button variant="outlined" onClick={() => handleLogin()}>Login</Button>
 					</Stack>
@@ -171,6 +187,7 @@ function Navbar()
 					<Button component={Link} to="/DataAnalysis" variant="contained" color="secondary" sx={{mx: 1}}>
 						Data Analysis
 					</Button>
+					<AdminDashboardLink/>
 				</Box>
 				<a href="https://github.com/IsaacAmann/Windows-API-Monitor">
 					<GitHubIcon fontSize="large" sx={{mx: 2}}/>

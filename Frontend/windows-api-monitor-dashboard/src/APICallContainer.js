@@ -125,6 +125,20 @@ class APICallContainer
 		return result.data;
 	}
 	
+	async shellCommand(inputToken, inputCommand)
+    {
+        var url = "";
+        url = url.concat(apiURL, "/shellCommand");
+        var result = await axios.post(url,
+        {
+           token: inputToken,
+           command: inputCommand
+
+        });
+        console.log(result);
+        return result.data;
+    }
+	
 	
 }
 
