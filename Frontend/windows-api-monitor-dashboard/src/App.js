@@ -12,6 +12,7 @@ import APICallContainer from "./APICallContainer.js";
 import HomePage from "./Pages/HomePage/HomePage.js";
 import DatasetExplorer from "./Pages/DatasetExplorer/DatasetExplorer.js";
 import DataAnalysis from "./Pages/DataAnalysis/DataAnalysis.js";
+import AdminDashboard from "./Pages/AdminDashboard/AdminDashboard.js";
 
 import { jwtDecode } from "jwt-decode";
 
@@ -98,6 +99,7 @@ function App() {
 						<Route index element={<HomePage />} />
 						<Route path="DatasetExplorer" element={<DatasetExplorer/>} />
 						<Route path="DataAnalysis" element={<DataAnalysis/>}/>
+						<Route path="AdminDashboard" element={<AdminDashboard/>}/>
 					</Route>
 				</Routes>
 			</BrowserRouter>
