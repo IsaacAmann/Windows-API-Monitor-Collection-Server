@@ -48,11 +48,14 @@ public class DataAnalysisController
 
         if(userAuthenticationService.authenticateRequest(token, UserAccount.UserRole.USER) == true)
         {
+            int epsilon;
+            int minPoints;
             switch(AnalysisJob.AnalysisType.valueOf(jobType))
             {
+
                 case SOW_AND_GROW:
-                    int epsilon = (int)payload.get("epsilon");
-                    int minPoints = (int)payload.get("minPoints");
+                    epsilon = (int)payload.get("epsilon");
+                    minPoints = (int)payload.get("minPoints");
                     List<Integer> seedIDs = (List<Integer>)payload.get("seedPoints");
 
                     //Create analysis job object
@@ -63,7 +66,13 @@ public class DataAnalysisController
 
                     break;
                 case DBSCAN_COSINE:
-
+                    epsilon = (int)payload.get("epsilon");
+                    minPoints = (int)payload.get("minPoints");
+                    //Create analysis job object
+                    RunDBSCANCosine runDBSCAN = new RunDBSCANCosine(null, epsilon, minPoints);
+                    AnalysisJob dbscanJob = new AnalysisJob(runDBSCAN, dataPointRepository, analysisJobService);
+                    //Submit job
+                    analysisJobService.submitAnalysisJob(dbscanJob);
                     break;
 
                 default:

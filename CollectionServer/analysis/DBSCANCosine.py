@@ -12,7 +12,7 @@ def main():
 	minPoints = 0
 	
 	
-	opts, args = getopt.getopt(sys.argv[1:], "i:m:e:")
+	opts, args = getopt.getopt(sys.argv[1:], "i:m:e:o:")
 	for o, a in opts:
 		if o == "-i":
 			inputFile = a
@@ -20,6 +20,8 @@ def main():
 			minPoints = int(a)
 		elif o == "-e":
 			epsilon = float(a)
+		elif o == "-o":
+			outputFile = a
 	
 	dataset = panda.read_csv(inputFile)
 	
