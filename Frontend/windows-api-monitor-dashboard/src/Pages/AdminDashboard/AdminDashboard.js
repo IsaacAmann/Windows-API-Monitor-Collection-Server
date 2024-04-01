@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
+import "./AdminDashboard.css"
+
 
 function AdminDashboard()
 {
@@ -20,16 +22,12 @@ function AdminDashboard()
     {
         return(
             <>
-                <h3> Command Console </h3>
-                <p>
-                    run showCommands to list methods available. View the ShellCommands class in the backend
-                    code for information on available methods or to add methods.
-                </p>
-                <textarea value={consoleText} readOnly={true} rows={20} cols={90} className="commandConsole">
-
+                
+                <textarea value={consoleText} readOnly={true}  className="commandConsole">
+					Command Console. Run showCommands to show available commands. Run clear to clear text
                 </textarea>
-                <form className="login-form" onSubmit={sendCommand}>
-                    <input name="command" type="text"  />
+                <form id="commandField" className="login-form" onSubmit={sendCommand}>
+                    <input autoFocus name="command" type="text"  />
 
                 </form>
             </>
@@ -78,11 +76,15 @@ function AdminDashboard()
 			return(
 				<>
 					<Navbar/>
-					<Typography variant="h3">Admin Dashboard</Typography>
-					<Box sx={{flexGrow: 1}}>
+					<Box sx={{flexGrow: 1, m: 1}}>
 						<Grid container spacing={2}>
-							<Grid item xs={10}>
+							<Grid item xs={6}>
 								<CommandConsole/>
+							</Grid>
+							<Grid item xs={6}>
+								<Box sx={{bgcolor: 'red'}}>
+									
+								</Box>
 							</Grid>
 						</Grid>
 					</Box>
