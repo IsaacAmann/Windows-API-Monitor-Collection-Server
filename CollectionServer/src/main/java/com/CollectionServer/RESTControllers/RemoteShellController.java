@@ -6,15 +6,22 @@ import com.CollectionServer.ShellCommands;
 import com.CollectionServer.UserManagement.UserAccountRepository;
 import com.CollectionServer.Services.UserAuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.boot.json.BasicJsonParser;
+import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import java.lang.management.*;
 
 import java.lang.reflect.*;
 
@@ -51,6 +58,56 @@ public class RemoteShellController
 
         return output;
     }
+
+    @PostMapping("/systemInfo")
+    public Map<String,Object> getSystemInfo(@RequestBody Map<String, Object> payload, HttpServletRequest request) throws NoSuchAlgorithmException, IOException
+    {
+        HashMap<String, Object> output = new HashMap<String, Object>();
+
+        String token = (String)payload.get("token");
+
+        //Authenticate
+        if(userAuthenticationService.authenticateRequest(token, UserAccount.UserRole.ADMIN) == true)
+        {
+            JacksonJsonParser parser = new JacksonJsonParser();
+
+            Process process = Runtime.getRuntime().exec("mpstat -u -o JSON -P ALL");
+            BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String json = "";
+            String currentLine = input.readLine();
+            while(currentLine  != null)
+            {
+                json += currentLine;
+                currentLine = input.readLine();
+            }
+            output.put("stats", parser.parseMap(json));
+
+            process = Runtime.getRuntime().exec("cat /proc/meminfo");
+            input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+            currentLine = input.readLine();
+            while(currentLine  != null)
+            {
+                //Parse current line of /proc/meminfo
+                String[] strings = currentLine.split(":");
+
+                String[] otherStrings = strings[1].split("kB");
+               // System.out.println(otherStrings[0]);
+                output.put(strings[0], Long.parseLong(otherStrings[0].trim()));
+                currentLine = input.readLine();
+            }
+
+
+            input.close();
+        }
+        else
+        {
+            output.put("error", "Failed to authenticate");
+        }
+
+        return output;
+    }
+
     @PostMapping("/shellCommand")
     public Map<String,Object> shellCommand(@RequestBody Map<String, Object> payload, HttpServletRequest request) throws NoSuchAlgorithmException
     {
