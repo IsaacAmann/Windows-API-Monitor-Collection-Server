@@ -138,6 +138,18 @@ class APICallContainer
         console.log(result);
         return result.data;
     }
+    
+    async systemInfo(inputToken)
+    {
+        var url = "";
+        url = url.concat(apiURL, "/systemInfo");
+        var result = await axios.post(url,
+        {
+           token: inputToken
+        });
+        console.log(result);
+        return result.data;
+    }
 	
 	
 }

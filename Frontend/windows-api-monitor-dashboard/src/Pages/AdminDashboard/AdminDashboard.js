@@ -3,6 +3,7 @@ import {useContext} from 'react'
 import {useState, useCallback} from 'react'
 
 import Navbar from "../../Components/Navbar/Navbar.js"
+import SystemMonitor from "../../Components/SystemMonitor/SystemMonitor.js"
 
 import APICallContainer from "../../APICallContainer.js";
 
@@ -10,6 +11,7 @@ import {LoginInfoContext} from "../../App.js";
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import { Gauge } from '@mui/x-charts/Gauge';
 
 import "./AdminDashboard.css"
 
@@ -82,9 +84,7 @@ function AdminDashboard()
 								<CommandConsole/>
 							</Grid>
 							<Grid item xs={6}>
-								<Box sx={{bgcolor: 'red'}}>
-									
-								</Box>
+								<SystemMonitor />
 							</Grid>
 						</Grid>
 					</Box>
