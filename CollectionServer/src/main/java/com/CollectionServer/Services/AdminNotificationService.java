@@ -31,6 +31,19 @@ public class AdminNotificationService
         }
 
         logsArray.add(log);
+        System.out.println(log.toString());
+    }
+
+    public ArrayList<AdminNotificationLog> getLogPage(int pageSize, int pageNumber)
+    {
+        ArrayList<AdminNotificationLog> output = new ArrayList<AdminNotificationLog>();
+        int startingIndex = pageNumber * pageSize;
+        for(int i = startingIndex; i < startingIndex + pageSize && i < logsArray.size(); i++)
+        {
+            output.add(logsArray.get(i));
+        }
+
+        return output;
     }
 
     public class AdminNotificationLog
@@ -59,6 +72,7 @@ public class AdminNotificationService
             output += dateCreated.toString() + " | ";
             output += logLevel.toString() + " | ";
             output += loggerName + " >>>> ";
+            output += message;
 
             return output;
         }

@@ -1,5 +1,6 @@
 package com.CollectionServer.RESTControllers;
 
+import com.CollectionServer.Services.AdminNotificationService;
 import com.CollectionServer.UserManagement.UserAccount;
 import com.CollectionServer.UserManagement.UserAccountRepository;
 import com.CollectionServer.Services.UserAuthenticationService;
@@ -20,6 +21,8 @@ public class LoginController
     private UserAccountRepository userAccountRepository;
     @Autowired
     private UserAuthenticationService userAuthenticationService;
+    @Autowired
+    private AdminNotificationService adminNotificationService;
 
 
 
@@ -38,10 +41,14 @@ public class LoginController
             //Generate a token
             String token = userAuthenticationService.issueToken(user);
             output.put("token", token);
+            //Printing 100 entries for testing page request
+            for(int i = 0; i < 100; i++)
+            adminNotificationService.submitLog(AdminNotificationService.LogLevel.INFO, this.getClass().toString(), username + " has logged in" + i);
         }
         else
         {
             output.put("errorMessage", "Invalid username or password");
+            adminNotificationService.submitLog(AdminNotificationService.LogLevel.INFO, this.getClass().toString(), username + " has failed login");
         }
 
         return output;

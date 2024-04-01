@@ -1,5 +1,6 @@
 package com.CollectionServer.RESTControllers;
 
+import com.CollectionServer.Services.AdminNotificationService;
 import com.CollectionServer.UserManagement.UserAccount;
 import com.CollectionServer.ShellCommands;
 import com.CollectionServer.UserManagement.UserAccountRepository;
@@ -25,8 +26,31 @@ public class RemoteShellController
     private UserAuthenticationService userAuthenticationService;
     @Autowired
     private ShellCommands shellCommands;
+    @Autowired
+    private AdminNotificationService adminNotificationService;
 
 
+    @PostMapping("/logPage")
+    public Map<String,Object> logPage(@RequestBody Map<String, Object> payload, HttpServletRequest request) throws NoSuchAlgorithmException
+    {
+        HashMap<String, Object> output = new HashMap<String, Object>();
+
+        String token = (String)payload.get("token");
+        int pageNumber = (int)payload.get("pageNumber");
+        int pageSize = (int)payload.get("pageSize");
+
+        //Authenticate
+        if(userAuthenticationService.authenticateRequest(token, UserAccount.UserRole.ADMIN) == true)
+        {
+            output.put("logEntries", adminNotificationService.getLogPage(pageSize, pageNumber));
+        }
+        else
+        {
+            output.put("error", "Failed to authenticate");
+        }
+
+        return output;
+    }
     @PostMapping("/shellCommand")
     public Map<String,Object> shellCommand(@RequestBody Map<String, Object> payload, HttpServletRequest request) throws NoSuchAlgorithmException
     {

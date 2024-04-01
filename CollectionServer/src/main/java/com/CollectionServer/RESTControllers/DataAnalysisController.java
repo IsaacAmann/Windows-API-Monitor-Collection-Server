@@ -5,6 +5,7 @@ import com.CollectionServer.ClientManagement.CollectionClientRepository;
 import com.CollectionServer.DataAnalysis.AnalysisJobRepository;
 import com.CollectionServer.DataPointEntity;
 import com.CollectionServer.DataPointRepository;
+import com.CollectionServer.Services.AdminNotificationService;
 import com.CollectionServer.Services.UserAuthenticationService;
 import com.CollectionServer.UserManagement.UserAccount;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,6 +39,8 @@ public class DataAnalysisController
     AnalysisJobService analysisJobService;
     @Autowired
     DataPointRepository dataPointRepository;
+    @Autowired
+    private AdminNotificationService adminNotificationService;
 
     @PostMapping("/postAnalysisJob")
     public Map<String,Object> postAnalysisJob(@RequestBody Map<String, Object> payload, HttpServletRequest request)
@@ -63,6 +66,7 @@ public class DataAnalysisController
                     AnalysisJob newJob = new AnalysisJob(analysisMethod, dataPointRepository, analysisJobService);
                     //Submit job
                     analysisJobService.submitAnalysisJob(newJob);
+                    adminNotificationService.submitLog(AdminNotificationService.LogLevel.INFO, this.getClass().toString(), "New SowAndGrow job submitted");
 
                     break;
                 case DBSCAN_COSINE:
@@ -73,6 +77,8 @@ public class DataAnalysisController
                     AnalysisJob dbscanJob = new AnalysisJob(runDBSCAN, dataPointRepository, analysisJobService);
                     //Submit job
                     analysisJobService.submitAnalysisJob(dbscanJob);
+                    adminNotificationService.submitLog(AdminNotificationService.LogLevel.INFO, this.getClass().toString(), "New DBSCAN Cosine job submitted");
+
                     break;
 
                 default:
