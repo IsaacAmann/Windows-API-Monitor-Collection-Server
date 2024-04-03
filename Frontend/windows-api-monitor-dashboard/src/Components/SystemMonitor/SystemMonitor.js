@@ -30,7 +30,9 @@ function SystemMonitor()
 			date: "",
 			kernel: "",
 			systemName: "",
-			numberProcessor: 0
+			numberProcessor: 0,
+			memoryUsed: 0,
+			memoryMax: 0
 		}
 	);
 	
@@ -98,6 +100,17 @@ function SystemMonitor()
 					newxAxis[0].data.push("Processor " + i);
 				}
 				
+				
+				//Get memory use values
+				let memTotal = value.MemTotal;
+				let memLeft = value.MemFree;
+				
+				//Convert to megabytes
+				memTotal *= 0.001;
+				memLeft *= 0.001;
+				
+				let memUsed = memTotal - memLeft;
+				
 				let node = value.stats.sysstat.hosts[0];
 				//Update state
 				setSystemStats({
@@ -107,26 +120,31 @@ function SystemMonitor()
 					usr: newUsr, xAxis: newxAxis,
 					architecture: node.machine, date: node.date,
 					kernel: node.release, systemName: node.sysname,
-					numberProcessors: node["number-of-cpus"], hostname: node.nodename
+					numberProcessors: node["number-of-cpus"], hostname: node.nodename,
+					memoryMax: Math.floor(memTotal), memoryUsed: Math.floor(memUsed)
 				});
 			}
 		);
 	}
 	
-	function SystemGauge(props)
+	function MemoryGauge()
 	{
 		
 		
 		return(
 			<>
 				<Gauge
-					width={125}
-					height={125}
-					value={75}
+					width={200}
+					height={200}
+					value={systemStats.memoryUsed}
+					valueMax={systemStats.memoryMax}
 					startAngle={0}
 					endAngle={360}
-					innerRadius="80%"
+					innerRadius="90%"
 					outerRadius="100%"
+					text = {
+						({ value, valueMax }) => `${value} MB / ${valueMax} MB`
+					}
 				/>
 			</>
 		);
@@ -136,7 +154,7 @@ function SystemMonitor()
 	<>
 		<Box sx={{}}>
 			<Grid container spacing={1}>
-				<Grid item xs={12}>
+				<Grid item xs={7}>
 					<Typography variant="h4"> Host System Information </Typography>
 					<Typography>Hostname: {systemStats.hostname}</Typography>
 					<Typography>Date: {systemStats.date}</Typography>
@@ -145,8 +163,9 @@ function SystemMonitor()
 					<Typography>System Name: {systemStats.systemName}</Typography>
 					<Typography>Processors: {systemStats.numberProcessor}</Typography>
 				</Grid>
-				<Grid item xs={3}>
-					<SystemGauge/>
+				<Grid item xs={5}>
+					<Typography>Memory Usage</Typography>
+					<MemoryGauge/>
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="h4"> CPU Usage </Typography>
