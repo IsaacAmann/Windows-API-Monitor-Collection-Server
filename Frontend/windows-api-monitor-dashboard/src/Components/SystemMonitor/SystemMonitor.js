@@ -121,7 +121,7 @@ function SystemMonitor()
 					usr: newUsr, xAxis: newxAxis,
 					architecture: node.machine, date: node.date,
 					kernel: node.release, systemName: node.sysname,
-					numberProcessors: node["number-of-cpus"], hostname: node.nodename,
+					numberProcessor: node["number-of-cpus"], hostname: node.nodename,
 					memoryMax: Math.floor(memTotal), memoryUsed: Math.floor(memUsed)
 				});
 			}
