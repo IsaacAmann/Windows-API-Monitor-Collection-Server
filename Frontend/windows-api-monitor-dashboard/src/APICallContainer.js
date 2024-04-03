@@ -147,7 +147,7 @@ class APICallContainer
         {
            token: inputToken
         });
-        console.log(result);
+        //console.log(result);
         return result.data;
     }
 	
