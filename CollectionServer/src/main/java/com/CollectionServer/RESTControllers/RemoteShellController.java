@@ -71,7 +71,7 @@ public class RemoteShellController
         {
             JacksonJsonParser parser = new JacksonJsonParser();
 
-            Process process = Runtime.getRuntime().exec("mpstat -u -o JSON -P ALL");
+            Process process = Runtime.getRuntime().exec("mpstat -u -o JSON -P ALL 1 1");
             BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String json = "";
             String currentLine = input.readLine();
