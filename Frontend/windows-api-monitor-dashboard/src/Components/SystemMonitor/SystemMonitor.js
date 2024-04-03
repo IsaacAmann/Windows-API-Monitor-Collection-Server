@@ -24,7 +24,13 @@ function SystemMonitor()
 			soft: [],
 			sys: [],
 			usr: [],
-			xAxis: []
+			xAxis: [],
+			architecture: "",
+			hostname: "",
+			date: "",
+			kernel: "",
+			systemName: "",
+			numberProcessor: 0
 		}
 	);
 	
@@ -73,7 +79,6 @@ function SystemMonitor()
 			{
 				console.log(value);
 				let cpuArray = value.stats.sysstat.hosts[0].statistics[0]["cpu-load"];
-				console.log(cpuArray);
 				
 				let newIrq = [];
 				let newIowait = [];
@@ -93,8 +98,17 @@ function SystemMonitor()
 					newxAxis[0].data.push("Processor " + i);
 				}
 				
+				let node = value.stats.sysstat.hosts[0];
 				//Update state
-				setSystemStats({...systemStats, isLoading: false, iowait: newIowait, irq: newIrq, soft: newSoft, sys: newSys, usr: newUsr, xAxis: newxAxis});
+				setSystemStats({
+					...systemStats, isLoading: false,
+					iowait: newIowait, irq: newIrq,
+					soft: newSoft, sys: newSys, 
+					usr: newUsr, xAxis: newxAxis,
+					architecture: node.machine, date: node.date,
+					kernel: node.release, systemName: node.sysname,
+					numberProcessors: node["number-of-cpus"], hostname: node.nodename
+				});
 			}
 		);
 	}
@@ -124,6 +138,12 @@ function SystemMonitor()
 			<Grid container spacing={1}>
 				<Grid item xs={12}>
 					<Typography variant="h4"> Host System Information </Typography>
+					<Typography>Hostname: {systemStats.hostname}</Typography>
+					<Typography>Date: {systemStats.date}</Typography>
+					<Typography>Architecture: {systemStats.architecture}</Typography>
+					<Typography>Kernel: {systemStats.kernel}</Typography>
+					<Typography>System Name: {systemStats.systemName}</Typography>
+					<Typography>Processors: {systemStats.numberProcessor}</Typography>
 				</Grid>
 				<Grid item xs={3}>
 					<SystemGauge/>
