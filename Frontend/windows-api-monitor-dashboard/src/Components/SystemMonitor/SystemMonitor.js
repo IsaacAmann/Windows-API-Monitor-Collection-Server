@@ -38,7 +38,7 @@ function SystemMonitor()
 	
 	useEffect( () => {
 			getSystemInfo();
-			let interval = setInterval(() => {getSystemInfo()}, 7000);
+			let interval = setInterval(() => {getSystemInfo()}, 5000);
 			
 			return () => clearInterval(interval);
 		
@@ -64,6 +64,7 @@ function SystemMonitor()
 		return(
 				<>
 					<BarChart
+						skipAnimation
 						series = {dataset}
 						xAxis = {systemStats.xAxis}
 						yAxis = {[{scaleType: 'linear', tickInterval: [100]}]}
