@@ -69,6 +69,7 @@ function DataAnalysis()
 					function(value)
 					{			
 						console.log(value);
+						setSubmitJobActive(false);
 					}
 				);
 			}

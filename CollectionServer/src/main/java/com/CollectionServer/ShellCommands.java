@@ -54,7 +54,7 @@ public class ShellCommands
         //Create new CollectionClient
         CollectionClient newClient = new CollectionClient();
 
-        output = output + "UUID: " + newClient.clientID.toString();
+        output = output + "UUID: " + newClient.clientID.toString() + " ";
         output = output + "API Key: " + newClient.getEncodedAPIToken();
 
         collectionClientRepository.save(newClient);
@@ -91,7 +91,8 @@ public class ShellCommands
         }
         return output;
     }
-    
+
+/* No longer needed, could also ruin the dataset if run on accident
     @ShellMethod(key = "createTestDatapoints")
     public String createTestDatapoints(int numberPoints)
     {
@@ -107,6 +108,7 @@ public class ShellCommands
 		
 		return "Created " + numberPoints + " test data points";
 	}
+*/
 	
 	@ShellMethod(key = "testSowAndGrow")
 	public String testSowAndGrow()
