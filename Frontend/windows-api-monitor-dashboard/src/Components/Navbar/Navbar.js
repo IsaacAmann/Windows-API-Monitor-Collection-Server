@@ -94,11 +94,12 @@ function Navbar()
 					loginInfo.setUsername(decodedToken.username);
 					loginInfo.setUserRole(decodedToken.userRole);
 					
+					setLoginError(null);
 					setLoginUp(false);
 				}
 				else
 				{
-					
+					setLoginError(value.error);
 				}
 			}
 		);
@@ -143,6 +144,24 @@ function Navbar()
 		}
 	}
 	
+	function LoginError()
+	{
+		if(loginError != null)
+		{
+			return(
+				<>
+					<Typography>
+						{loginError}
+					</Typography>
+				</>
+			);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
 	function LoginForm()
 	{
 		return(
@@ -160,6 +179,7 @@ function Navbar()
 						<TextField id="passwordField" label="Password" variant="filled" type="password" inputRef={passwordRef}/>
 
 						<Button variant="outlined" onClick={() => handleLogin()}>Login</Button>
+						<LoginError/>
 					</Stack>
 				</form>
 			</Container>
