@@ -38,6 +38,7 @@ export const themeOptions: ThemeOptions = {
     divider: 'rgba(90,35,35,0.12)',
     text: {
       primary: '#d9ceff',
+      disabled: 'd9ceff'
     },
     background: {
       default: '#03000b',
@@ -61,6 +62,8 @@ export const mainTheme = createTheme({
     divider: '#9b77ff',
     text: {
       primary: '#e2f8ec',
+      disabled: '#0a2918',
+      secondary: '#145230'
     },
     background: {
       default: '#020a07',

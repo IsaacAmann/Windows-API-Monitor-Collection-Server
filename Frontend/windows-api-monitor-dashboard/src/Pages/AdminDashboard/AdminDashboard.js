@@ -4,6 +4,8 @@ import {useState, useCallback} from 'react'
 
 import Navbar from "../../Components/Navbar/Navbar.js"
 import SystemMonitor from "../../Components/SystemMonitor/SystemMonitor.js"
+import AdminTabMenu from "../../Components/AdminTabMenu/AdminTabMenu.js"
+
 
 import APICallContainer from "../../APICallContainer.js";
 
@@ -85,6 +87,9 @@ function AdminDashboard()
 							</Grid>
 							<Grid item xs={6}>
 								<SystemMonitor />
+							</Grid>
+							<Grid item xs={12}>
+								<AdminTabMenu/>
 							</Grid>
 						</Grid>
 					</Box>
