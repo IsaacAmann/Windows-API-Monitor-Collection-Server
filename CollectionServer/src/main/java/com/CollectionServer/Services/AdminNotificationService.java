@@ -11,6 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AdminNotificationService
 {
     public static final int MAX_ENTRIES = 5000;
+
+    protected static int nextID = 0;
     public enum LogLevel
     {
         ERROR,
@@ -18,7 +20,7 @@ public class AdminNotificationService
         INFO
     }
 
-    private static ArrayList<AdminNotificationLog> logsArray = new ArrayList<AdminNotificationLog>();
+    public static ArrayList<AdminNotificationLog> logsArray = new ArrayList<AdminNotificationLog>();
 
     public void submitLog(LogLevel logLevel, String loggerName, String message)
     {
@@ -49,6 +51,7 @@ public class AdminNotificationService
     public class AdminNotificationLog
     {
         public LogLevel logLevel;
+        public int id;
         public String message;
 
         public String loggerName;
@@ -60,7 +63,7 @@ public class AdminNotificationService
             this.logLevel = logLevel;
             this.loggerName = loggerName;
             this.message = message;
-
+            this.id = AdminNotificationService.nextID++;
             this.dateCreated = new Date();
         }
 

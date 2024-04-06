@@ -34,7 +34,7 @@ function DataAnalysis()
 	
 	
 
-	function FullDataTable()
+	function AnalysisDataTable()
 	{
 		const [tableState, setTableState] = useState( 
 		{
@@ -273,7 +273,7 @@ function DataAnalysis()
 			<>
 					<Navbar/>
 					<p>Data Analysis</p>
-					<FullDataTable />
+					<AnalysisDataTable/>
 			</>
 		);
 	}

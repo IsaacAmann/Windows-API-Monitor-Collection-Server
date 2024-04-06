@@ -110,6 +110,21 @@ class APICallContainer
 		return result.data;
 	}
 	
+	async getLogPage(token, pageNumber, pageSize)
+	{
+		var url = "";
+		url = url.concat(apiURL, "/logPage");
+		var json = {};
+		json.token = token;
+		json.pageNumber = pageNumber;
+		json.pageSize = pageSize;
+		
+		var result = await axios.post(url, json);
+		
+		//console.log(result);
+		return result.data;
+	}
+	
 	async inspectAnalysisJob(token, id)
 	{
 		var url = "";

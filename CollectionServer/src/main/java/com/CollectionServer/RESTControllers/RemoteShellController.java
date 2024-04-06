@@ -50,6 +50,7 @@ public class RemoteShellController
         if(userAuthenticationService.authenticateRequest(token, UserAccount.UserRole.ADMIN) == true)
         {
             output.put("logEntries", adminNotificationService.getLogPage(pageSize, pageNumber));
+            output.put("totalElements", adminNotificationService.logsArray.size());
         }
         else
         {
