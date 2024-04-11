@@ -1,5 +1,6 @@
 package com.CollectionServer.DataAnalysis;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import com.CollectionServer.DataPointRepository;
@@ -47,9 +48,9 @@ public class AnalysisJob
 	
 	@Transient 
 	public AnalysisJobService analysisJobService;
-	
+	@JsonFormat(pattern = "HH:mm:ss dd/MM/yyyy")
 	public Date timeStarted;
-	
+	@JsonFormat(pattern = "HH:mm:ss dd/MM/yyyy")
 	public Date timeFinished;
 		
 	public AnalysisType analysisType;

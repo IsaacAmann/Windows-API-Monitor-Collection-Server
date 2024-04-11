@@ -1,4 +1,5 @@
 package com.CollectionServer.Services;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class AdminNotificationService
         public String message;
 
         public String loggerName;
-
+        @JsonFormat(pattern = "dd/MM/yyyy")
         public Date dateCreated;
 
         public AdminNotificationLog(LogLevel logLevel, String loggerName, String message)

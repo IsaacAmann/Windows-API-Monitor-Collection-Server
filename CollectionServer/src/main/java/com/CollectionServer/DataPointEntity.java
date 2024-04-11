@@ -1,5 +1,6 @@
 package com.CollectionServer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +27,7 @@ public class DataPointEntity
 	public String executablePath;
 
 	public UUID originClientId;
-
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	public Date dateCreated;
 
 	@ElementCollection(fetch = FetchType.EAGER)

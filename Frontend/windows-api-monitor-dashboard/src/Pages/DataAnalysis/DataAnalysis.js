@@ -229,8 +229,8 @@ function DataAnalysis()
 			//Set up columns
 			var colDefs = [
 				{field: 'id', headerName: "id", width: 50},
-				{field: 'TimeStarted', headerName: 'TimeStarted', width: 150},
-				{field: 'TimeFinished', headerName: 'TimeFinished', width: 150},
+				{field: 'TimeStarted', headerName: 'TimeStarted', width: 200},
+				{field: 'TimeFinished', headerName: 'TimeFinished', width: 200},
 				{field: 'AnalysisType', headerName: 'AnalysisType', width: 150},
 				{field: 'JobStatus', headerName: 'JobStatus', width: 150}
 			
