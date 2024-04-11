@@ -207,6 +207,9 @@ function Navbar()
 					<Button component={Link} to="/DataAnalysis" variant="contained" color="secondary" sx={{mx: 1}}>
 						Data Analysis
 					</Button>
+					<Button component={Link} to="/Documentation" variant="contained" color="secondary" sx={{mx: 1}}>
+						Documentation
+					</Button>
 					<AdminDashboardLink/>
 				</Box>
 				<a href="https://github.com/IsaacAmann/Windows-API-Monitor">

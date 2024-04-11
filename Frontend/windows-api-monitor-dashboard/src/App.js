@@ -13,6 +13,7 @@ import HomePage from "./Pages/HomePage/HomePage.js";
 import DatasetExplorer from "./Pages/DatasetExplorer/DatasetExplorer.js";
 import DataAnalysis from "./Pages/DataAnalysis/DataAnalysis.js";
 import AdminDashboard from "./Pages/AdminDashboard/AdminDashboard.js";
+import Documentation from "./Pages/Documentation/Documentation.js";
 
 import { jwtDecode } from "jwt-decode";
 
@@ -105,6 +106,7 @@ function App() {
 						<Route path="DatasetExplorer" element={<DatasetExplorer/>} />
 						<Route path="DataAnalysis" element={<DataAnalysis/>}/>
 						<Route path="AdminDashboard" element={<AdminDashboard/>}/>
+						<Route path="Documentation" element={<Documentation/>}/>
 					</Route>
 				</Routes>
 			</BrowserRouter>
