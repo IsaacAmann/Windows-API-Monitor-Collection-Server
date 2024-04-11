@@ -132,6 +132,100 @@ function AdminTabMenu()
 		}
 	}
 	
+	function UserDataTable()
+	{
+		const [tableState, setTableState] = useState( 
+		{
+			currentResponse: null,
+			loadPage: true,
+			isLoading: true,
+			rows: [],
+			total: 0,
+			page: 0, 
+			pageSize: elementsPerPage
+		});
+		const [selectedElement, setSelectedElement] = useState(null);
+
+		const [submitJobActive, setSubmitJobActive] = useState(false);
+		
+		function handlePageChange(model, details)
+		{
+			setTableState({...tableState, page: model.page, loadPage: true, isLoading: true});
+		}
+		
+		const handleSelectionChange = useCallback((model, details) => {
+			//model contains id's and not indexs
+			let value = tableState.rows.filter((e) => {return e.id === model[0]});
+			setSelectedElement(value[0]);
+		});
+		
+		//Request a page from the server
+		if(tableState.loadPage == true)
+		{
+			tableState.loadPage = false;
+
+			var response = APICallContainer.getUserPage(loginInfo.token, tableState.page, elementsPerPage).then(
+				function(value)
+				{			
+					console.log(value);
+					//Set up rows
+					var rowObjects = [];
+					var dataArray = value.values.content;
+					for(let i = 0; i < dataArray.length; i++)
+					{
+						rowObjects[i] = {};
+						rowObjects[i].id = dataArray[i].id;
+						rowObjects[i].username = dataArray[i].username;
+						rowObjects[i].userRole = dataArray[i].userRole;
+					}
+					
+					var rows: GridRowsProp = rowObjects;
+					setTableState({...tableState, isLoading: false, currentResponse: value.logEntries, rows: rows, total: value.totalElements})
+				}
+			);
+		}
+		
+		if(tableState.isLoading == false)
+		{
+			var dataArray = tableState.currentResponse;
+			//Set up columns
+			var colDefs = [
+				{field: 'id', headerName: "ID", width: 50},
+				{field: 'username', headerName: 'Username', width: 300},
+				{field: 'userRole', headerName: 'User Role', width: 300}
+
+			];
+					
+			var columns: GridColDef[] = colDefs;
+			
+			return(
+				<>
+					<DataGrid
+						rows={tableState.rows}
+						loading={tableState.isLoading} 
+						columns={columns} 
+						paginationMode="server"
+						sx={{my:3}}
+						paginationModel={{page: tableState.page, pageSize: tableState.pageSize}}
+						onPaginationModelChange={handlePageChange}
+						pageSizeOptions={[elementsPerPage]}
+						rowCount={tableState.total}
+						onRowSelectionModelChange={handleSelectionChange}
+					/>
+
+				</>
+			);
+		}
+		else
+		{
+			return(
+				<div style={{display: "flex", justifyContent: "center"}}>
+					<CircularProgress color="secondary" sx={{my: 10}}/>
+				</div>
+			);
+		}	
+	}
+	
 	function LogDataTable()
 	{
 		const [tableState, setTableState] = useState( 
@@ -236,13 +330,17 @@ function AdminTabMenu()
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 						<TabList onChange={handleTabChange} aria-label="Admin tab menu">
 							<Tab label="Client List" value="1" />
-							<Tab label="Log Viewer" value = "2" />
+							<Tab label="User List" value="2" />
+							<Tab label="Log Viewer" value = "3" />
 						</TabList>
 					</Box>
 					<TabPanel value="1">
 						<ClientDataTable/>
 					</TabPanel>
 					<TabPanel value="2">
+						<UserDataTable/>
+					</TabPanel>
+					<TabPanel value="3">
 						<LogDataTable />
 					</TabPanel>
 				</TabContext>
