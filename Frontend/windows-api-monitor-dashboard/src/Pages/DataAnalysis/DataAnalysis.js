@@ -21,6 +21,8 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
+import Snackbar from '@mui/material/Snackbar';
+
 
 
 import Navbar from "../../Components/Navbar/Navbar.js"
@@ -31,7 +33,7 @@ function DataAnalysis()
 {
 	const loginInfo = useContext(LoginInfoContext);
 	const elementsPerPage = 25;
-	
+	const [submitNotify, setSubmitNotify] = useState(false);
 	
 
 	function AnalysisDataTable()
@@ -70,6 +72,7 @@ function DataAnalysis()
 					{			
 						console.log(value);
 						setSubmitJobActive(false);
+						setSubmitNotify(true);
 					}
 				);
 			}
@@ -275,6 +278,12 @@ function DataAnalysis()
 					<Navbar/>
 					<p>Data Analysis</p>
 					<AnalysisDataTable/>
+					<Snackbar
+						open={submitNotify}
+						autoHideDuration={1500}
+						onClose={() => {setSubmitNotify(false)} }
+						message="Job submitted"
+					/>
 			</>
 		);
 	}

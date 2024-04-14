@@ -28,6 +28,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Drawer from '@mui/material/Drawer';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
+import Snackbar from '@mui/material/Snackbar';
 
 import APICallContainer from "../../APICallContainer.js";
 
@@ -40,6 +41,7 @@ function Navbar()
 	const loginInfo = useContext(LoginInfoContext);
 	const [loginUp, setLoginUp] = useState(false);
 	const [profileDisplayUp, setProfileDisplayUp] = useState(false);
+	const [loginNotify, setLoginNotify] = useState(false);
 	
 	const [username, setUsername] = useState(null);
 	const [password, setPassword] = useState(null);
@@ -55,6 +57,11 @@ function Navbar()
 		loginInfo.setUserRole(null);
 		loginInfo.setToken(null);
 		APICallContainer.logout();
+	}
+	
+	function handleLoginNotifyClose()
+	{
+		setLoginNotify(false);
 	}
 	
 	function ProfileDisplayDrawer()
@@ -96,6 +103,7 @@ function Navbar()
 					
 					setLoginError(null);
 					setLoginUp(false);
+					setLoginNotify(true);
 				}
 				else
 				{
@@ -219,6 +227,12 @@ function Navbar()
 			</Toolbar>
 			<ProfileDisplayDrawer/>
 		</AppBar>
+		<Snackbar
+			open={loginNotify}
+			autoHideDuration={1500}
+			onClose={handleLoginNotifyClose}
+			message="Login Successful"
+		/>
 		
 	</Box>
 	);
