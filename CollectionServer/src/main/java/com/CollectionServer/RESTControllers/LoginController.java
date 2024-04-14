@@ -41,8 +41,6 @@ public class LoginController
             //Generate a token
             String token = userAuthenticationService.issueToken(user);
             output.put("token", token);
-            //Printing 100 entries for testing page request
-            for(int i = 0; i < 100; i++)
             adminNotificationService.submitLog(AdminNotificationService.LogLevel.INFO, this.getClass().toString(), username + " has logged in" + i);
         }
         else

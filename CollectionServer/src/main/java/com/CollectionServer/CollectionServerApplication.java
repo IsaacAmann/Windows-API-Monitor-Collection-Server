@@ -1,5 +1,6 @@
 package com.CollectionServer;
 
+import com.CollectionServer.Services.RateLimitService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -18,6 +19,9 @@ import org.springframework.context.annotation.Configuration;
 @SpringBootApplication
 public class CollectionServerApplication {
 
+	@Autowired
+	private RateLimitService rateLimitService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(CollectionServerApplication.class, args);
 	}
@@ -33,8 +37,15 @@ public class CollectionServerApplication {
 		{
 			registry.addMapping("/**");
 		}
-	}
 
+		@Override
+		public void addInterceptors(InterceptorRegistry registry)
+		{
+			RateLimitService.RateLimitInterceptor interceptor = rateLimitService.getInterceptor();
+
+			registry.addInterceptor(interceptor).addPathPatterns("/*");
+		}
+	}
 
 }
 

@@ -1,5 +1,6 @@
 package com.CollectionServer.ClientManagement;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +28,8 @@ public class CollectionClient
 	public Integer id;
 	
 	public UUID clientID;
+
+	@JsonFormat(pattern = "HH:mm:ss dd/MM/yyyy")
 	public Date lastSeen;
 		
 	private byte[] APIToken;
