@@ -1,0 +1,7 @@
+.JobTextArea
+{
+	width: 100%;
+	height: 80vh;
+	resize: none;
+	font-size: 15px;
+}

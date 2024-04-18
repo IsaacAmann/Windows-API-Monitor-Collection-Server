@@ -23,6 +23,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Snackbar from '@mui/material/Snackbar';
 
+import "./DataAnalysis.css"
 
 
 import Navbar from "../../Components/Navbar/Navbar.js"
@@ -157,15 +158,10 @@ function DataAnalysis()
 
 						<Container sx={{bgcolor: "grey", maxWidth: "lg"}}>
 							<Typography variant="h3">Data Analysis Job</Typography>
-						
-							<Typography>
-								<pre>
-									{
-										getJobString()
-									}
-								</pre>
-							</Typography>
-							
+							<textarea class="JobTextArea">
+								{getJobString()}
+							</textarea>
+								
 						</Container>
 					</Backdrop>
 				);
