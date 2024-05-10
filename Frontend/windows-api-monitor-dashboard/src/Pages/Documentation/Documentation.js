@@ -57,12 +57,16 @@ function Documentation()
 				<Typography variant="h4">
 					Milestone #3
 				</Typography>
+				<a href="../Documents/Senior_Project_Milestone_3.pdf">PDF Download</a>
+
 				
 				<Divider sx={{my: 2}}/>
 				
 				<Typography variant="h4">
 					Final Report
 				</Typography>
+				<a href="../Documents/SeniorProjectFinalReport.pdf">PDF Download</a>
+
 				
 			</Container>
 		</>
